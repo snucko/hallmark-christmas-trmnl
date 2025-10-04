@@ -1,0 +1,133 @@
+{% comment %}
+Hallmark Christmas Movies - Full Layout (800×480)
+Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channel info
+{% endcomment %}
+
+{% assign today = "now" | date: "%Y-%m-%d" %}
+{% assign schedule_data = site.data.movies %}
+{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+
+<style>
+  .plugin {
+    width: 800px;
+    height: 480px;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #000;
+    padding-bottom: 10px;
+  }
+  
+  .header h1 {
+    font-size: 28px;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+  }
+  
+  .header .season {
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+  }
+  
+  .movie {
+    display: flex;
+    gap: 10px;
+    border: 2px solid #000;
+    padding: 8px;
+  }
+  
+  .movie-poster {
+    width: 80px;
+    height: 120px;
+    border: 1px solid #000;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+  
+  .movie-poster img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .movie-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .movie-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+    line-height: 1.2;
+  }
+  
+  .movie-date {
+    font-size: 12px;
+    margin: 2px 0;
+  }
+  
+  .movie-channel {
+    font-size: 11px;
+    margin: 2px 0;
+  }
+  
+  .movie-stars {
+    font-size: 10px;
+    margin: 2px 0;
+    font-style: italic;
+  }
+  
+  .premiere-badge {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 3px;
+  }
+</style>
+
+<div class="plugin">
+  <div class="header">
+    <h1>🎄 Hallmark Christmas Movies 🎄</h1>
+    <p class="season">{{ schedule_data.season }}</p>
+  </div>
+  
+  <div class="movies-grid">
+    {% for movie in upcoming_movies limit: 6 %}
+      <div class="movie">
+        <div class="movie-poster">
+          <div style="font-size: 40px;">🎬</div>
+        </div>
+        <div class="movie-info">
+          <h2 class="movie-title">{{ movie.title }}</h2>
+          <p class="movie-date">📅 {{ movie.date | date: "%b %d" }} @ {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" }}</p>
+          <p class="movie-channel">📺 {{ movie.channel }}</p>
+          {% if movie.stars %}
+            <p class="movie-stars">{{ movie.stars }}</p>
+          {% endif %}
+          {% if movie.premiere %}
+            <span class="premiere-badge">PREMIERE</span>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

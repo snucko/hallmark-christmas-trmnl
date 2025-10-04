@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Development
+.trmnlp.yml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo

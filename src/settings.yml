@@ -1,0 +1,19 @@
+---
+plugin_name: Hallmark Christmas Movies
+description: Display the 2025 Hallmark Christmas movie schedule
+version: 1.0.0
+author: Christmas Movie Fan
+
+custom_fields: []
+
+# No external data source needed - static JSON
+data_sources: []
+
+# Update display every hour to show current/upcoming
+update_interval: 3600
+
+layouts:
+  - full
+  - half_horizontal
+  - half_vertical
+  - quadrant

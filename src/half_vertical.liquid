@@ -1,0 +1,116 @@
+{% comment %}
+Hallmark Christmas Movies - Half Vertical Layout (400×480)
+Displays 6 upcoming movies in a vertical stack
+{% endcomment %}
+
+{% assign today = "now" | date: "%Y-%m-%d" %}
+{% assign schedule_data = data.movies %}
+{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+
+<style>
+  .plugin {
+    width: 400px;
+    height: 480px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 8px;
+  }
+  
+  .header h1 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .movies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .movie {
+    display: flex;
+    gap: 8px;
+    border: 1px solid #000;
+    padding: 6px;
+  }
+  
+  .movie-poster {
+    width: 50px;
+    height: 75px;
+    border: 1px solid #000;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+  
+  .movie-poster img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .movie-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .movie-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+  }
+  
+  .movie-date {
+    font-size: 10px;
+    margin: 2px 0;
+  }
+  
+  .premiere-badge {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 1px 4px;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 2px;
+  }
+</style>
+
+<div class="plugin">
+  <div class="header">
+    <h1>🎄 Hallmark<br>Christmas Movies 🎄</h1>
+  </div>
+  
+  <div class="movies-list">
+    {% for movie in upcoming_movies limit: 6 %}
+      <div class="movie">
+        <div class="movie-poster">
+          {% if movie.image %}
+            <img src="{{ movie.image }}" alt="{{ movie.title }}">
+          {% else %}
+            <div style="font-size: 10px;">🎬</div>
+          {% endif %}
+        </div>
+        <div class="movie-info">
+          <h2 class="movie-title">{{ movie.title | truncate: 30 }}</h2>
+          <p class="movie-date">{{ movie.date | date: "%b %d" }} • {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }}</p>
+          {% if movie.premiere %}
+            <span class="premiere-badge">PREMIERE</span>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

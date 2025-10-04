@@ -1,0 +1,118 @@
+{% comment %}
+Hallmark Christmas Movies - Half Horizontal Layout (800×240)
+Displays 4 upcoming movies in a horizontal row with compact poster thumbnails
+{% endcomment %}
+
+{% assign today = "now" | date: "%Y-%m-%d" %}
+{% assign schedule_data = data.movies %}
+{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+
+<style>
+  .plugin {
+    width: 800px;
+    height: 240px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 8px;
+  }
+  
+  .header h1 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .movies-row {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+  }
+  
+  .movie {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid #000;
+    padding: 8px;
+  }
+  
+  .movie-poster {
+    width: 60px;
+    height: 90px;
+    border: 1px solid #000;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+  
+  .movie-poster img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .movie-title {
+    font-size: 11px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+    max-height: 28px;
+    overflow: hidden;
+  }
+  
+  .movie-time {
+    font-size: 10px;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .premiere-badge {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 1px 4px;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 2px;
+  }
+</style>
+
+<div class="plugin">
+  <div class="header">
+    <h1>🎄 Hallmark Christmas Movies 🎄</h1>
+  </div>
+  
+  <div class="movies-row">
+    {% for movie in upcoming_movies limit: 4 %}
+      <div class="movie">
+        <div class="movie-poster">
+          {% if movie.image %}
+            <img src="{{ movie.image }}" alt="{{ movie.title }}">
+          {% else %}
+            <div style="font-size: 10px;">🎬</div>
+          {% endif %}
+        </div>
+        <h2 class="movie-title">{{ movie.title | truncate: 35 }}</h2>
+        {% assign date_obj = movie.date | date: "%Y-%m-%d" %}
+        {% if date_obj == today %}
+          <p class="movie-time">Tonight {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }}</p>
+        {% else %}
+          <p class="movie-time">{{ movie.date | date: "%b %d" }} {{ movie.time | replace: ":00", "" | replace: "20", "8PM" | replace: "21", "9PM" | replace: "18", "6PM" }}</p>
+        {% endif %}
+        {% if movie.premiere %}
+          <span class="premiere-badge">PREMIERE</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
