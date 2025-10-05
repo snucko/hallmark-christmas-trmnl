@@ -3,10 +3,27 @@ Hallmark Christmas Movies - Quadrant Layout (400×240)
 Displays 1-2 featured movies with larger poster for "Tonight's Movie" or next upcoming
 {% endcomment %}
 
+{% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
+{% assign schedule_data = data_url | fetch_json %}
+
+{% assign has_data = false %}
+{% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
+  {% assign has_data = true %}
+{% endif %}
+
+{% unless has_data %}
+  {% assign fallback_season = "2025 Countdown to Christmas" %}
+  {% assign fallback_movies = "Mistletoe Murders|2025-10-17|20:00|Hallmark Channel|Sarah Drew, Peter Mooney|true^A Royal Montana Christmas|2025-10-18|20:00|Hallmark Channel|Fiona Gubelmann, Warren Christie|true" | split: "^" %}
+{% endunless %}
+
 {% assign today = "now" | date: "%Y-%m-%d" %}
-{% assign schedule_data = data.movies %}
-{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
-{% assign tonight_movies = schedule_data.movies | where_exp: "movie", "movie.date == today" %}
+{% if has_data %}
+  {% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+  {% assign tonight_movies = schedule_data.movies | where_exp: "movie", "movie.date == today" %}
+{% else %}
+  {% assign upcoming_movies = fallback_movies %}
+  {% assign tonight_movies = "" | split: "" %}
+{% endif %}
 
 <style>
   .plugin {

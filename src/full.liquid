@@ -7,13 +7,23 @@ Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channe
 {% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
 {% assign schedule_data = data_url | fetch_json %}
 
-{% comment %} Fallback to local data for development {% endcomment %}
-{% unless schedule_data %}
-  {% assign schedule_data = site.data.movies %}
+{% comment %} Hardcoded fallback for local development {% endcomment %}
+{% assign has_data = false %}
+{% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
+  {% assign has_data = true %}
+{% endif %}
+
+{% unless has_data %}
+  {% assign fallback_season = "2025 Countdown to Christmas" %}
+  {% assign fallback_movies = "Mistletoe Murders|2025-10-17|20:00|Hallmark Channel|Sarah Drew, Peter Mooney|true^A Royal Montana Christmas|2025-10-18|20:00|Hallmark Channel|Fiona Gubelmann, Warren Christie|true^A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|true^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Chris Sullivan, Margo Moorer|true^The 5-Year Christmas Party|2025-10-26|20:00|Hallmark Channel|Katie Findlay, Jordan Fisher|true^Holiday Touchdown: A Bills Love Story|2025-11-22|20:00|Hallmark Channel|Hunter King, Tyler Hynes|true" | split: "^" %}
 {% endunless %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
-{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+{% if has_data %}
+  {% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+{% else %}
+  {% assign upcoming_movies = fallback_movies %}
+{% endif %}
 
 <style>
   .plugin {
@@ -115,27 +125,45 @@ Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channe
 <div class="plugin">
   <div class="header">
     <h1>🎄 Hallmark Christmas Movies 🎄</h1>
-    <p class="season">{{ schedule_data.season }}</p>
+    <p class="season">{% if has_data %}{{ schedule_data.season }}{% else %}{{ fallback_season }}{% endif %}</p>
   </div>
   
   <div class="movies-grid">
-    {% for movie in upcoming_movies limit: 6 %}
-      <div class="movie">
-        <div class="movie-poster">
-          <div style="font-size: 40px;">🎬</div>
+    {% if has_data %}
+      {% for movie in upcoming_movies limit: 4 %}
+        <div class="movie">
+          <div class="movie-poster">
+            <div style="font-size: 40px;">🎬</div>
+          </div>
+          <div class="movie-info">
+            <h2 class="movie-title">{{ movie.title }}</h2>
+            <p class="movie-date">📅 {{ movie.date | date: "%b %d" }} @ {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" }}</p>
+            <p class="movie-channel">📺 {{ movie.channel }}</p>
+            {% if movie.stars %}
+              <p class="movie-stars">{{ movie.stars }}</p>
+            {% endif %}
+            {% if movie.premiere %}
+              <span class="premiere-badge">PREMIERE</span>
+            {% endif %}
+          </div>
         </div>
-        <div class="movie-info">
-          <h2 class="movie-title">{{ movie.title }}</h2>
-          <p class="movie-date">📅 {{ movie.date | date: "%b %d" }} @ {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" }}</p>
-          <p class="movie-channel">📺 {{ movie.channel }}</p>
-          {% if movie.stars %}
-            <p class="movie-stars">{{ movie.stars }}</p>
-          {% endif %}
-          {% if movie.premiere %}
+      {% endfor %}
+    {% else %}
+      {% for movie_data in upcoming_movies limit: 4 %}
+        {% assign movie_parts = movie_data | split: "|" %}
+        <div class="movie">
+          <div class="movie-poster">
+            <div style="font-size: 40px;">🎬</div>
+          </div>
+          <div class="movie-info">
+            <h2 class="movie-title">{{ movie_parts[0] }}</h2>
+            <p class="movie-date">📅 {{ movie_parts[1] | date: "%b %d" }} @ {{ movie_parts[2] | replace: ":00", "" | replace: "20", "8 PM" }}</p>
+            <p class="movie-channel">📺 {{ movie_parts[3] }}</p>
+            <p class="movie-stars">{{ movie_parts[4] }}</p>
             <span class="premiere-badge">PREMIERE</span>
-          {% endif %}
+          </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    {% endif %}
   </div>
 </div>
