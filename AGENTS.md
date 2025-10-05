@@ -127,11 +127,15 @@ Templates convert 24-hour to 12-hour display:
 - [x] Time zone support (America/New_York)
 - [x] Premiere badge indicators
 - [x] Channel information display
+- [x] GitHub repo created: https://github.com/snucko/hallmark-christmas-trmnl
+- [x] fetch_json integration for TRMNL platform
+- [x] Hardcoded fallback data for local development
+- [x] Both `_data/` and `data/` directories for compatibility
+- [x] Local Docker testing working
 
 ### ⏳ Pending/Optional
 - [ ] Add actual movie poster images to `images/1bit/`
 - [ ] Convert posters to 1-bit PNG format
-- [ ] Test with Docker locally
 - [ ] Deploy to TRMNL platform
 - [ ] Get actual poster images from Hallmark or TMDB
 
@@ -142,6 +146,8 @@ Templates convert 24-hour to 12-hour display:
 3. **Static Data**: No live API - data is frozen for 2025 season
 4. **Update Interval**: Set to 3600 seconds (1 hour) in settings.yml
 5. **Date Comparison**: Templates compare dates as strings (YYYY-MM-DD format ensures correct sorting)
+6. **Dual Data Approach**: Uses `fetch_json` from GitHub for TRMNL platform, hardcoded fallback for local dev
+7. **Data Location**: JSON exists in both `_data/movies.json` (for Jekyll/local) and `data/movies.json` (for reference)
 
 ## Image Requirements
 
