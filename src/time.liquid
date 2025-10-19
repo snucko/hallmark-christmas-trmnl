@@ -1,0 +1,12 @@
+{%- assign hour = time | split: ":" | first | plus: 0 -%}
+{%- assign am_pm = "AM" -%}
+{%- if hour >= 12 -%}
+  {%- assign am_pm = "PM" -%}
+  {%- if hour > 12 -%}
+    {%- assign hour = hour | minus: 12 -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if hour == 0 -%}
+  {%- assign hour = 12 -%}
+{%- endif -%}
+{{- hour }}{{- am_pm -}}
