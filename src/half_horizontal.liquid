@@ -13,7 +13,7 @@ Displays 4 upcoming movies in a horizontal row with compact poster thumbnails
 
 {% unless has_data %}
   {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "Mistletoe Murders|2025-10-17|20:00|Hallmark Channel|Sarah Drew, Peter Mooney|true^A Royal Montana Christmas|2025-10-18|20:00|Hallmark Channel|Fiona Gubelmann, Warren Christie|true^A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|true^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Chris Sullivan, Margo Moorer|true" | split: "^" %}
+  {% assign fallback_movies = "A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|a-christmas-angel-match.png^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png" | split: "^" %}
 {% endunless %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
