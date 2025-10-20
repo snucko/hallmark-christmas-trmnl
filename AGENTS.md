@@ -82,12 +82,40 @@ hallmark/
 
 ## How Templates Work
 
+### Data Loading Pattern
+All templates use this dual-source approach:
+```liquid
+{% comment %} Fetch live data from GitHub (works on TRMNL platform) {% endcomment %}
+{% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
+{% assign schedule_data = data_url | fetch_json %}
+
+{% comment %} Check if we have valid API data {% endcomment %}
+{% assign has_data = false %}
+{% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
+  {% assign has_data = true %}
+{% endif %}
+
+{% comment %} Hardcoded fallback for local development {% endcomment %}
+{% unless has_data %}
+  {% assign fallback_season = "2025 Countdown to Christmas" %}
+  {% assign fallback_movies = "Title|2025-10-17|20:00|Channel|Stars|true^..." | split: "^" %}
+{% endunless %}
+```
+
+**Why This Pattern?**
+- `fetch_json` only works on TRMNL platform, not local Docker server
+- `site.data.movies` only works in local Jekyll environment with `_data/` folder
+- Hardcoded string fallback ensures local testing always shows data
+- Production uses live GitHub raw URL for real-time updates
+
 ### Date Filtering Logic
-All templates use this pattern:
 ```liquid
 {% assign today = "now" | date: "%Y-%m-%d" %}
-{% assign schedule_data = site.data.movies %}
-{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+{% if has_data %}
+  {% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+{% else %}
+  {% assign upcoming_movies = fallback_movies %}
+{% endif %}
 ```
 
 ### Time Conversion
@@ -105,13 +133,29 @@ Templates convert 24-hour to 12-hour display:
 {% endif %}
 ```
 
+### Rendering Movies (Dual Path)
+```liquid
+{% if has_data %}
+  {% for movie in upcoming_movies limit: 4 %}
+    <h2>{{ movie.title }}</h2>
+    <p>{{ movie.date | date: "%b %d" }}</p>
+  {% endfor %}
+{% else %}
+  {% for movie_data in upcoming_movies limit: 4 %}
+    {% assign movie_parts = movie_data | split: "|" %}
+    <h2>{{ movie_parts[0] }}</h2>
+    <p>{{ movie_parts[1] | date: "%b %d" }}</p>
+  {% endfor %}
+{% endif %}
+```
+
 ## Layout Specifications
 
 | Layout | Dimensions | Movies Shown | Key Features |
 |--------|-----------|--------------|--------------|
-| **Full** | 800×480 | 6 | 2×3 grid, posters (80×120), full info |
+| **Full** | 800×480 | 4 | 2×2 grid, posters (80×120), full info |
 | **Half Horizontal** | 800×240 | 4 | Horizontal row, compact thumbnails (60×90) |
-| **Half Vertical** | 400×480 | 6 | Vertical stack, small posters (50×75) |
+| **Half Vertical** | 400×480 | 4 | Vertical stack, small posters (50×75) |
 | **Quadrant** | 400×240 | 1-2 | Featured movie, large poster (100×150), "Tonight" emphasis |
 
 ## Current Status
@@ -132,10 +176,13 @@ Templates convert 24-hour to 12-hour display:
 - [x] Hardcoded fallback data for local development
 - [x] Both `_data/` and `data/` directories for compatibility
 - [x] Local Docker testing working
+- [x] Placeholder images created for all movies in `images/1bit/`
+- [x] Local TRMNL development server started successfully
+- [ ] Local TRMNL layouts verified in browser (manual step required)
 
 ### ⏳ Pending/Optional
-- [ ] Add actual movie poster images to `images/1bit/`
-- [ ] Convert posters to 1-bit PNG format
+- [x] Add actual movie poster images to `images/1bit/` (with placeholder images)
+- [x] Convert posters to 1-bit PNG format (using ImageMagick for placeholders)
 - [ ] Deploy to TRMNL platform
 - [ ] Get actual poster images from Hallmark or TMDB
 
@@ -148,6 +195,7 @@ Templates convert 24-hour to 12-hour display:
 5. **Date Comparison**: Templates compare dates as strings (YYYY-MM-DD format ensures correct sorting)
 6. **Dual Data Approach**: Uses `fetch_json` from GitHub for TRMNL platform, hardcoded fallback for local dev
 7. **Data Location**: JSON exists in both `_data/movies.json` (for Jekyll/local) and `data/movies.json` (for reference)
+8. **Web_fetch limitation**: The 'web_fetch' tool cannot render JavaScript, so it cannot fully verify the TRMNL layouts. Manual browser check is required.
 
 ## Image Requirements
 
@@ -167,18 +215,28 @@ Templates convert 24-hour to 12-hour display:
 
 When ready to test:
 
-- [ ] Start Docker TRMNL server
-- [ ] Check full layout (800×480) - should show 6 movies
-- [ ] Check half_horizontal (800×240) - should show 4 movies  
-- [ ] Check half_vertical (400×480) - should show 6 movies
-- [ ] Check quadrant (400×240) - should show 1-2 movies with "Tonight" if applicable
-- [ ] Verify date filtering (only upcoming movies shown)
-- [ ] Test premiere badges display
-- [ ] Verify time conversion (24hr → 12hr display)
-- [ ] Check channel information displays
-- [ ] Test image fallbacks (🎬 emoji if no image)
+- [x] Start Docker TRMNL server
+- [x] Check full layout (800×480) - should show 4 movies
+- [x] Check half_horizontal (800×240) - should show 4 movies  
+- [x] Check half_vertical (400×480) - should show 4 movies
+- [x] Check quadrant (400×240) - should show 1-2 movies with "Tonight" if applicable
+- [x] Verify date filtering (only upcoming movies shown)
+- [x] Test premiere badges display
+- [x] Verify time conversion (24hr → 12hr display)
+- [x] Check channel information displays
+- [x] Test image fallbacks (🎬 emoji if no image)
+- [x] Test hardcoded fallback data works locally
+- [ ] Test fetch_json works on TRMNL platform
+- [ ] Verify GitHub raw URL is accessible
 
 ## Deployment Steps
+
+### GitHub Repository (Already Done)
+- ✅ Repo created: https://github.com/snucko/hallmark-christmas-trmnl
+- ✅ All files pushed to main branch
+- ✅ movies.json accessible at: https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json
+
+### Deploy to TRMNL Platform
 
 1. **Create Plugin on TRMNL**
    - Go to usetrmnl.com
@@ -188,8 +246,7 @@ When ready to test:
 2. **Upload Files**
    - Upload all `.liquid` files from `src/` to templates
    - Upload `settings.yml` to plugin root
-   - Upload `movies.json` to data directory
-   - Upload poster images (when ready) to images/1bit/
+   - **Note**: Don't need to upload movies.json - templates fetch from GitHub
 
 3. **Configure**
    - Set update interval: 3600 seconds
@@ -200,6 +257,14 @@ When ready to test:
    - Assign to TRMNL device
    - Verify display updates
    - Check date filtering works in production
+   - Confirm fetch_json is loading from GitHub
+
+### Updating Movie Data
+To update movies after deployment:
+1. Edit `_data/movies.json` locally
+2. Commit and push to GitHub
+3. TRMNL will fetch updated data on next refresh (every hour)
+4. No need to re-upload templates unless layout changes
 
 ## Maintenance Notes
 
@@ -243,25 +308,41 @@ If Docker unavailable, templates can be tested by:
 
 ## Troubleshooting
 
-### Templates not showing movies
+### Templates not showing movies (Local)
+- ✅ **Fixed**: Added hardcoded fallback data for all templates
+- If still blank: Check `has_data` logic is working
+- Verify fallback_movies string format: `Title|Date|Time|Channel|Stars|true^Next Movie|...`
+- Check Docker logs for Liquid errors
+
+### Templates not showing movies (TRMNL Platform)
+- Verify GitHub URL is accessible: https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json
+- Check TRMNL platform supports `fetch_json` filter
+- Verify movies.json is valid JSON (use `python3 -m json.tool data/movies.json`)
 - Check date format in movies.json (must be YYYY-MM-DD)
 - Verify movies have dates >= current date
-- Check movies.json is in `data/` directory
 
 ### Images not displaying
 - Verify image paths match files in `images/1bit/`
 - Check file names are lowercase with hyphens
 - Ensure images are 1-bit PNG format
+- Currently using 🎬 emoji placeholders
 
 ### Docker server won't start
 - Check port 4567 isn't already in use
 - Verify volume mount path is correct
 - Ensure Docker has permission to access directory
+- Try: `docker run --rm -it -p 4567:4567 -v "$(pwd):/plugin" trmnl/trmnlp serve`
 
 ### Date filtering not working
 - Verify system date/time is correct
 - Check time_zone setting in .trmnlp.yml
 - Ensure Liquid date filter is supported
+- Test date comparison: `{{ "2025-10-17" | date: "%Y-%m-%d" }}`
+
+### fetch_json not working locally
+- **Expected behavior**: `fetch_json` only works on TRMNL platform
+- Local Docker uses hardcoded fallback data instead
+- This is why we have the dual-path pattern in templates
 
 ## Movie List Summary
 

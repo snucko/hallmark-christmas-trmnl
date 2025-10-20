@@ -1,0 +1,80 @@
+  .plugin {
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #000;
+    padding-bottom: 10px;
+  }
+  
+  .header h1 {
+    font-size: 28px;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+  }
+  
+  .header .season {
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  .movie {
+    border: 2px solid #000;
+    padding: 8px;
+  }
+  
+  .movie-poster {
+    border: 1px solid #000;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+  
+  .movie-poster img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .movie-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .movie-title {
+    font-weight: bold;
+    line-height: 1.2;
+  }
+  
+  .movie-date {
+    font-size: 12px;
+    margin: 2px 0;
+  }
+  
+  .movie-channel {
+    font-size: 11px;
+    margin: 2px 0;
+  }
+  
+  .movie-stars {
+    font-size: 10px;
+    margin: 2px 0;
+    font-style: italic;
+  }
+  
+  .premiere-badge {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 3px;
+  }

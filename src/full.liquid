@@ -15,7 +15,7 @@ Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channe
 
 {% unless has_data %}
   {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "Mistletoe Murders|2025-10-17|20:00|Hallmark Channel|Sarah Drew, Peter Mooney|true^A Royal Montana Christmas|2025-10-18|20:00|Hallmark Channel|Fiona Gubelmann, Warren Christie|true^A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|true^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Chris Sullivan, Margo Moorer|true^The 5-Year Christmas Party|2025-10-26|20:00|Hallmark Channel|Katie Findlay, Jordan Fisher|true^Holiday Touchdown: A Bills Love Story|2025-11-22|20:00|Hallmark Channel|Hunter King, Tyler Hynes|true" | split: "^" %}
+  {% assign fallback_movies = "A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|a-christmas-angel-match.png^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png^A Newport Christmas|2025-11-02|20:00|Hallmark Channel|Ginna Claire Mason|a-newport-christmas.png^Christmas Above the Clouds|2025-11-08|20:00|Hallmark Channel|Erin Krakow, Tyler Hynes|christmas-above-the-clouds.png" | split: "^" %}
 {% endunless %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
@@ -133,7 +133,11 @@ Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channe
       {% for movie in upcoming_movies limit: 4 %}
         <div class="movie">
           <div class="movie-poster">
-            <div style="font-size: 40px;">🎬</div>
+            {% if movie.image %}
+              <img src="https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/{{ movie.image }}" alt="{{ movie.title }}"/>
+            {% else %}
+              <div style="font-size: 40px;">🎬</div>
+            {% endif %}
           </div>
           <div class="movie-info">
             <h2 class="movie-title">{{ movie.title }}</h2>
@@ -153,7 +157,11 @@ Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channe
         {% assign movie_parts = movie_data | split: "|" %}
         <div class="movie">
           <div class="movie-poster">
-            <div style="font-size: 40px;">🎬</div>
+            {% if movie_parts[5] %}
+              <img src="https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/images/1bit/{{ movie_parts[5] }}" alt="{{ movie_parts[0] }}"/>
+            {% else %}
+              <div style="font-size: 40px;">🎬</div>
+            {% endif %}
           </div>
           <div class="movie-info">
             <h2 class="movie-title">{{ movie_parts[0] }}</h2>
