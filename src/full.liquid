@@ -15,7 +15,7 @@ Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channe
 
 {% unless has_data %}
   {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|a-christmas-angel-match.png^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png^A Newport Christmas|2025-11-02|20:00|Hallmark Channel|Ginna Claire Mason|a-newport-christmas.png^Christmas Above the Clouds|2025-11-08|20:00|Hallmark Channel|Erin Krakow, Tyler Hynes|christmas-above-the-clouds.png" | split: "^" %}
+  {% assign fallback_movies = "Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png^A Newport Christmas|2025-11-02|20:00|Hallmark Channel|Ginna Claire Mason|a-newport-christmas.png^Christmas Above the Clouds|2025-11-08|20:00|Hallmark Channel|Erin Krakow, Tyler Hynes|christmas-above-the-clouds.png^A Keller Christmas Vacation|2025-11-09|20:00|Hallmark Channel|Jonathan Bennett|" | split: "^" %}
 {% endunless %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}

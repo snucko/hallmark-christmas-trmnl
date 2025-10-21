@@ -13,7 +13,7 @@ Displays 6 upcoming movies in a vertical stack
 
 {% unless has_data %}
   {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "A Christmas Angel Match|2025-10-19|20:00|Hallmark Channel|Meghan Ory, Benjamin Ayres|a-christmas-angel-match.png^Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png" | split: "^" %}
+  {% assign fallback_movies = "Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png^A Newport Christmas|2025-11-02|20:00|Hallmark Channel|Ginna Claire Mason|a-newport-christmas.png" | split: "^" %}
 {% endunless %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
