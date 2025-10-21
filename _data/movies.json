@@ -4,39 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Mistletoe Murders",
-      "date": "2025-10-17",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 60,
-      "description": "Season 2 premiere. Two episodes continue each week through Fri, Nov 21.",
-      "stars": "Sarah Drew, Peter Mooney",
-      "premiere": true,
-      "image": "images/1bit/mistletoe-murders.png"
-    },
-    {
-      "title": "A Royal Montana Christmas",
-      "date": "2025-10-18",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A princess escapes to a Montana ranch and finds romance.",
-      "stars": "Fiona Gubelmann, Warren Christie",
-      "premiere": true,
-      "image": "images/1bit/a-royal-montana-christmas.png"
-    },
-    {
-      "title": "A Christmas Angel Match",
-      "date": "2025-10-19",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Two Christmas Angels are paired to save a destined romance.",
-      "stars": "Meghan Ory, Benjamin Ayres",
-      "premiere": true,
-      "image": "images/1bit/a-christmas-angel-match.png"
-    },
-    {
       "title": "Merry Christmas, Ted Cooper!",
       "date": "2025-10-25",
       "time": "20:00",
