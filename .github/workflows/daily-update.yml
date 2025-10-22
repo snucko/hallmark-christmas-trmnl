@@ -1,0 +1,45 @@
+name: Daily TRMNL Plugin Update
+
+on:
+  schedule:
+    # Run at 6 AM UTC daily (adjust timezone as needed)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  update-trmnl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Update TRMNL plugin
+      env:
+        TRMNL_PLUGIN_UUID: ${{ secrets.TRMNL_PLUGIN_UUID }}
+      run: |
+        echo "Running daily TRMNL plugin update..."
+        python3 send_to_trmnl.py --uuid $TRMNL_PLUGIN_UUID
+
+    - name: Check screen (optional verification)
+      env:
+        TRMNL_PLUGIN_UUID: ${{ secrets.TRMNL_PLUGIN_UUID }}
+        TRMNL_DEVICE_API_KEY: ${{ secrets.TRMNL_DEVICE_API_KEY }}
+      run: |
+        echo "Verifying update (optional)..."
+        if [ -n "$TRMNL_DEVICE_API_KEY" ]; then
+          python3 send_to_trmnl.py --uuid $TRMNL_PLUGIN_UUID --check-screen $TRMNL_DEVICE_API_KEY
+        else
+          echo "Device API key not provided - skipping screen verification"
+        fi
+      continue-on-error: true
