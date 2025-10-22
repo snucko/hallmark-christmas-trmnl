@@ -162,7 +162,8 @@ The plugin now uses TRMNL's webhook system for dynamic data updates instead of s
    pip install requests  # if not installed
    python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
    ```
-4. **Configure Update Frequency**: Set the plugin's update interval in settings.yml (default: 3600 seconds)
+4. **Get Device API Key** (optional, for screen checking): Go to Devices > Edit in TRMNL dashboard
+5. **Configure Update Frequency**: Set the plugin's update interval in settings.yml (default: 3600 seconds)
 
 ### Webhook Script Usage
 
@@ -172,6 +173,9 @@ python3 send_to_trmnl.py --uuid abc123def456
 
 # Dry run to see what would be sent
 python3 send_to_trmnl.py --uuid abc123def456 --dry-run
+
+# Send data and check current screen (requires device API key)
+python3 send_to_trmnl.py --uuid abc123def456 --check-screen YOUR_DEVICE_API_KEY
 ```
 
 ### Updating Movie Data
@@ -191,6 +195,7 @@ To update the schedule (if Hallmark changes it):
 - **Real-time Changes**: Push updates immediately to all devices
 - **Version Control**: Keep movie data in git alongside templates
 - **Local Development**: Templates still work locally with fallback data
+- **Screen Verification**: Use private API to check current display content
 
 ## Layout Specifications
 

@@ -6,11 +6,14 @@ This enables dynamic updates to the plugin instead of relying on static GitHub d
 
 Usage:
     python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+    python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID --check-screen YOUR_DEVICE_API_KEY
 
 Requirements:
     pip install requests
 
-Note: Get the UUID from your TRMNL plugin's webhook URL field.
+Notes:
+- Get the UUID from your TRMNL plugin's webhook URL field
+- Get the device API key from Devices > Edit in TRMNL dashboard
 """
 
 import json
@@ -78,10 +81,34 @@ def send_to_trmnl(uuid, data):
 
     return True
 
+def check_current_screen(api_key):
+    """Check current screen using private API"""
+    url = "https://usetrmnl.com/api/current_screen"
+    headers = {
+        "access-token": api_key
+    }
+
+    print("Checking current screen...")
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        print("✅ Current screen retrieved:")
+        print(f"  Status: {data.get('status')}")
+        print(f"  Image URL: {data.get('image_url')}")
+        print(f"  Filename: {data.get('filename')}")
+        print(f"  Refresh rate: {data.get('refresh_rate')}")
+        return True
+    else:
+        print(f"❌ Failed to get current screen. Status: {response.status_code}")
+        print(f"Response: {response.text}")
+        return False
+
 def main():
     parser = argparse.ArgumentParser(description="Send movie data to TRMNL webhook")
     parser.add_argument("--uuid", required=True, help="TRMNL plugin UUID from webhook URL")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be sent without actually sending")
+    parser.add_argument("--check-screen", help="Device API key to check current screen after sending data")
 
     args = parser.parse_args()
 
@@ -100,6 +127,12 @@ def main():
 
     # Send to TRMNL
     success = send_to_trmnl(args.uuid, data)
+
+    # Check current screen if API key provided
+    if success and args.check_screen:
+        print("\n" + "="*50)
+        check_current_screen(args.check_screen)
+
     return 0 if success else 1
 
 if __name__ == "__main__":
