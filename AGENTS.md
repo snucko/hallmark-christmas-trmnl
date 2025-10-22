@@ -176,7 +176,31 @@ python3 send_to_trmnl.py --uuid abc123def456 --dry-run
 
 # Send data and check current screen (requires device API key)
 python3 send_to_trmnl.py --uuid abc123def456 --check-screen YOUR_DEVICE_API_KEY
+
+# Test dynamic updates (requires device API key)
+python3 send_to_trmnl.py --uuid abc123def456 --test-dynamic YOUR_DEVICE_API_KEY
 ```
+
+### Daily Automatic Updates
+
+Set up a cron job to run daily and keep the plugin updated with only upcoming movies:
+
+```bash
+# Edit crontab
+crontab -e
+
+# Add this line to run at 6 AM daily (adjust path as needed):
+0 6 * * * cd /path/to/hallmark && python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+
+# Alternative: Run every 12 hours
+0 */12 * * * cd /path/to/hallmark && python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+```
+
+**What this does:**
+- Automatically filters out movies where the date has passed
+- Sends only upcoming movies to TRMNL
+- Keeps your plugin always showing current content
+- No manual intervention needed
 
 ### Updating Movie Data
 

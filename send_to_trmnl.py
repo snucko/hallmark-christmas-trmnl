@@ -7,6 +7,7 @@ This enables dynamic updates to the plugin instead of relying on static GitHub d
 Usage:
     python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
     python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID --check-screen YOUR_DEVICE_API_KEY
+    python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID --test-dynamic YOUR_DEVICE_API_KEY
 
 Requirements:
     pip install requests
@@ -19,6 +20,7 @@ Notes:
 import json
 import argparse
 import requests
+import time
 from pathlib import Path
 
 def load_movies_data():
@@ -98,17 +100,104 @@ def check_current_screen(api_key):
         print(f"  Image URL: {data.get('image_url')}")
         print(f"  Filename: {data.get('filename')}")
         print(f"  Refresh rate: {data.get('refresh_rate')}")
-        return True
+        return data
     else:
         print(f"❌ Failed to get current screen. Status: {response.status_code}")
         print(f"Response: {response.text}")
+        return None
+
+def download_screen_image(image_url, filename):
+    """Download the screen image"""
+    print(f"Downloading screen image to {filename}...")
+    response = requests.get(image_url)
+
+    if response.status_code == 200:
+        with open(filename, 'wb') as f:
+            f.write(response.content)
+        print(f"✅ Downloaded {len(response.content)} bytes")
+        return True
+    else:
+        print(f"❌ Failed to download image. Status: {response.status_code}")
         return False
+
+def test_dynamic_updates(uuid, original_data, api_key):
+    """Test dynamic updates: download before, send modified data, download after"""
+    print("="*60)
+    print("TESTING DYNAMIC UPDATES")
+    print("="*60)
+
+    # Step 1: Download current screen (before)
+    print("Step 1: Downloading current screen (BEFORE)")
+    before_screen = check_current_screen(api_key)
+    if not before_screen:
+        return 1
+
+    before_filename = "screen_tests/before.png"
+    if not download_screen_image(before_screen['image_url'], before_filename):
+        return 1
+
+    print()
+
+    # Step 2: Modify data and send update
+    print("Step 2: Modifying data and sending update")
+    modified_data = original_data.copy()
+    modified_data['season'] = f"{original_data['season']} - UPDATED {int(time.time())}"
+
+    print(f"Modified season: {modified_data['season']}")
+
+    success = send_to_trmnl(uuid, modified_data)
+    if not success:
+        return 1
+
+    # Wait for TRMNL to process and refresh
+    print("Waiting 30 seconds for TRMNL to process and refresh...")
+    time.sleep(30)
+
+    print()
+
+    # Step 3: Download new screen (after)
+    print("Step 3: Downloading updated screen (AFTER)")
+    after_screen = check_current_screen(api_key)
+    if not after_screen:
+        return 1
+
+    after_filename = "screen_tests/after.png"
+    if not download_screen_image(after_screen['image_url'], after_filename):
+        return 1
+
+    print()
+
+    # Step 4: Compare results
+    print("Step 4: Comparing results")
+    print("="*60)
+
+    print("BEFORE:")
+    print(f"  Filename: {before_screen['filename']}")
+    print(f"  Image URL: {before_screen['image_url'][:100]}...")
+
+    print("\nAFTER:")
+    print(f"  Filename: {after_screen['filename']}")
+    print(f"  Image URL: {after_screen['image_url'][:100]}...")
+
+    # Check if they are different
+    if before_screen['filename'] != after_screen['filename']:
+        print("\n✅ SUCCESS: Screen updated! Filenames are different.")
+        print("The plugin is dynamically updating based on webhook data!")
+    else:
+        print("\n⚠️  Note: Filenames are the same - may need to wait longer for refresh")
+
+    print(f"\nImages saved to:")
+    print(f"  Before: {before_filename}")
+    print(f"  After:  {after_filename}")
+
+    return 0
 
 def main():
     parser = argparse.ArgumentParser(description="Send movie data to TRMNL webhook")
     parser.add_argument("--uuid", required=True, help="TRMNL plugin UUID from webhook URL")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be sent without actually sending")
     parser.add_argument("--check-screen", help="Device API key to check current screen after sending data")
+    parser.add_argument("--test-dynamic", help="Device API key to test dynamic updates: download before, send modified data, download after")
 
     args = parser.parse_args()
 
@@ -124,6 +213,10 @@ def main():
         print("DRY RUN - Would send:")
         print(json.dumps({"merge_variables": data}, indent=2))
         return 0
+
+    # Test dynamic updates if requested
+    if args.test_dynamic:
+        return test_dynamic_updates(args.uuid, data, args.test_dynamic)
 
     # Send to TRMNL
     success = send_to_trmnl(args.uuid, data)
