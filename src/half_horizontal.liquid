@@ -3,8 +3,8 @@ Hallmark Christmas Movies - Half Horizontal Layout (800×240)
 Displays 4 upcoming movies in a horizontal row with compact poster thumbnails
 {% endcomment %}
 
-{% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
-{% assign schedule_data = data_url | fetch_json %}
+{% comment %} Use webhook merge_variables for dynamic data {% endcomment %}
+{% assign schedule_data = merge_variables %}
 
 {% assign has_data = false %}
 {% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}

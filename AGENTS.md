@@ -44,6 +44,7 @@ hallmark/
 ├── ADD.md                         # Build notes from movies.json creation
 ├── Hallmark Christmas 2025.pdf    # Source schedule PDF
 ├── hallmark_build.py              # Reference script for PDF parsing
+├── send_to_trmnl.py               # Webhook script for dynamic data updates
 ├── data/
 │   └── movies.json                # Complete schedule data (28 movies)
 ├── images/
@@ -83,13 +84,12 @@ hallmark/
 ## How Templates Work
 
 ### Data Loading Pattern
-All templates use this dual-source approach:
+All templates use webhooks for dynamic data with fallback for local development:
 ```liquid
-{% comment %} Fetch live data from GitHub (works on TRMNL platform) {% endcomment %}
-{% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
-{% assign schedule_data = data_url | fetch_json %}
+{% comment %} Use webhook merge_variables for dynamic data {% endcomment %}
+{% assign schedule_data = merge_variables %}
 
-{% comment %} Check if we have valid API data {% endcomment %}
+{% comment %} Check if we have valid webhook data {% endcomment %}
 {% assign has_data = false %}
 {% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
   {% assign has_data = true %}
@@ -149,6 +149,49 @@ Templates convert 24-hour to 12-hour display:
 {% endif %}
 ```
 
+## Dynamic Updates with Webhooks
+
+The plugin now uses TRMNL's webhook system for dynamic data updates instead of static GitHub fetches. This allows real-time updates to movie schedules without redeploying the plugin.
+
+### Setup Webhook Updates
+
+1. **Create Plugin on TRMNL**: Go to usetrmnl.com and create a new private plugin
+2. **Get Webhook UUID**: After saving the plugin, copy the UUID from the Webhook URL field
+3. **Send Initial Data**: Use the provided script to send movie data:
+   ```bash
+   pip install requests  # if not installed
+   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+   ```
+4. **Configure Update Frequency**: Set the plugin's update interval in settings.yml (default: 3600 seconds)
+
+### Webhook Script Usage
+
+```bash
+# Send current movie data to TRMNL
+python3 send_to_trmnl.py --uuid abc123def456
+
+# Dry run to see what would be sent
+python3 send_to_trmnl.py --uuid abc123def456 --dry-run
+```
+
+### Updating Movie Data
+
+To update the schedule (if Hallmark changes it):
+
+1. Edit `data/movies.json` with new movie information
+2. Run the webhook script to push updates to TRMNL:
+   ```bash
+   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+   ```
+3. TRMNL devices will refresh with new data on next update cycle
+
+### Benefits of Webhook Approach
+
+- **Dynamic Updates**: Change movie data without redeploying templates
+- **Real-time Changes**: Push updates immediately to all devices
+- **Version Control**: Keep movie data in git alongside templates
+- **Local Development**: Templates still work locally with fallback data
+
 ## Layout Specifications
 
 | Layout | Dimensions | Movies Shown | Key Features |
@@ -172,7 +215,7 @@ Templates convert 24-hour to 12-hour display:
 - [x] Premiere badge indicators
 - [x] Channel information display
 - [x] GitHub repo created: https://github.com/snucko/hallmark-christmas-trmnl
-- [x] fetch_json integration for TRMNL platform
+- [x] Webhook integration for dynamic data updates on TRMNL platform
 - [x] Hardcoded fallback data for local development
 - [x] Both `_data/` and `data/` directories for compatibility
 - [x] Local Docker testing working
@@ -190,10 +233,10 @@ Templates convert 24-hour to 12-hour display:
 
 1. **No Images Yet**: Movie posters not included - placeholders (🎬) used
 2. **Image paths in JSON**: All movies have image paths defined, but files don't exist yet
-3. **Static Data**: No live API - data is frozen for 2025 season
+3. **Dynamic Data**: Webhooks enable real-time updates - data can be updated via API calls
 4. **Update Interval**: Set to 3600 seconds (1 hour) in settings.yml
 5. **Date Comparison**: Templates compare dates as strings (YYYY-MM-DD format ensures correct sorting)
-6. **Dual Data Approach**: Uses `fetch_json` from GitHub for TRMNL platform, hardcoded fallback for local dev
+6. **Dual Data Approach**: Uses `merge_variables` from webhooks for TRMNL platform, hardcoded fallback for local dev
 7. **Data Location**: JSON exists in both `_data/movies.json` (for Jekyll/local) and `data/movies.json` (for reference)
 8. **Web_fetch limitation**: The 'web_fetch' tool cannot render JavaScript, so it cannot fully verify the TRMNL layouts. Manual browser check is required.
 
@@ -246,24 +289,30 @@ When ready to test:
 2. **Upload Files**
    - Upload all `.liquid` files from `src/` to templates
    - Upload `settings.yml` to plugin root
-   - **Note**: Don't need to upload movies.json - templates fetch from GitHub
 
-3. **Configure**
+3. **Send Initial Data**
+   - Copy the webhook UUID from the plugin configuration
+   - Run: `python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID`
+
+4. **Configure**
    - Set update interval: 3600 seconds
    - Set time zone: America/New_York
    - Enable desired layouts
 
-4. **Test on Device**
+5. **Test on Device**
    - Assign to TRMNL device
    - Verify display updates
    - Check date filtering works in production
-   - Confirm fetch_json is loading from GitHub
+   - Confirm merge_variables are loaded from webhook
 
 ### Updating Movie Data
 To update movies after deployment:
-1. Edit `_data/movies.json` locally
-2. Commit and push to GitHub
-3. TRMNL will fetch updated data on next refresh (every hour)
+1. Edit `data/movies.json` locally
+2. Run the webhook script to push updates to TRMNL:
+   ```
+   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+   ```
+3. TRMNL devices will refresh with new data on next update cycle
 4. No need to re-upload templates unless layout changes
 
 ## Maintenance Notes
@@ -279,7 +328,10 @@ To update movies after deployment:
 1. Edit `data/movies.json`
 2. Add new movie object with all fields
 3. Generate/add poster image to `images/1bit/`
-4. Re-upload movies.json to TRMNL
+4. Run the webhook script to push updates to TRMNL:
+   ```
+   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
+   ```
 
 ## Key Technical Details
 
@@ -289,11 +341,11 @@ To update movies after deployment:
 - **Python 3** (optional): For hallmark_build.py script
 - **ImageMagick or PIL** (optional): For image conversion
 
-### No External APIs
-- All data is static in movies.json
-- No API keys needed
-- No rate limits or external dependencies
-- Updates only when movies.json is modified
+### Webhook Integration
+- Data is sent via TRMNL webhooks for dynamic updates
+- No external API keys needed for Hallmark data
+- TRMNL webhook rate limits apply (12x/hour for free, 30x for TRMNL+)
+- Updates triggered by running the send_to_trmnl.py script
 
 ### Time Zone Handling
 - All times stored in 24-hour format (Eastern Time)
@@ -339,8 +391,8 @@ If Docker unavailable, templates can be tested by:
 - Ensure Liquid date filter is supported
 - Test date comparison: `{{ "2025-10-17" | date: "%Y-%m-%d" }}`
 
-### fetch_json not working locally
-- **Expected behavior**: `fetch_json` only works on TRMNL platform
+### merge_variables not working locally
+- **Expected behavior**: `merge_variables` only available when webhook data is sent
 - Local Docker uses hardcoded fallback data instead
 - This is why we have the dual-path pattern in templates
 

@@ -3,8 +3,8 @@ Hallmark Christmas Movies - Half Vertical Layout (400×480)
 Displays 6 upcoming movies in a vertical stack
 {% endcomment %}
 
-{% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
-{% assign schedule_data = data_url | fetch_json %}
+{% comment %} Use webhook merge_variables for dynamic data {% endcomment %}
+{% assign schedule_data = merge_variables %}
 
 {% assign has_data = false %}
 {% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}

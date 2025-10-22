@@ -3,8 +3,8 @@ Hallmark Christmas Movies - Quadrant Layout (400×240)
 Displays 1-2 featured movies with larger poster for "Tonight's Movie" or next upcoming
 {% endcomment %}
 
-{% assign data_url = "https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json" %}
-{% assign schedule_data = data_url | fetch_json %}
+{% comment %} Use webhook merge_variables for dynamic data {% endcomment %}
+{% assign schedule_data = merge_variables %}
 
 {% assign has_data = false %}
 {% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
@@ -13,7 +13,7 @@ Displays 1-2 featured movies with larger poster for "Tonight's Movie" or next up
 
 {% unless has_data %}
   {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "Mistletoe Murders|2025-10-17|20:00|Hallmark Channel|Sarah Drew, Peter Mooney|true^A Royal Montana Christmas|2025-10-18|20:00|Hallmark Channel|Fiona Gubelmann, Warren Christie|true" | split: "^" %}
+  {% assign fallback_movies = "Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png" | split: "^" %}
 {% endunless %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
