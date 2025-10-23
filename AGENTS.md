@@ -20,11 +20,14 @@ open http://localhost:4567/quadrant
 
 ### Image Conversion (when adding posters)
 ```bash
-# Using ImageMagick
-convert poster.jpg -resize 200x300 -colorspace Gray -ordered-dither o8x8 images/1bit/movie-title.png
+# Using the improved script (recommended - follows TRMNL ImageMagick guide)
+python3 convert_posters.py poster.jpg images/1bit/movie-title.png
 
-# Using Python (run hallmark_build.py has helper functions)
-python3 -c "from PIL import Image; img = Image.open('poster.jpg').resize((200,300)).convert('1'); img.save('images/1bit/output.png')"
+# Batch convert all posters in a directory
+python3 convert_posters.py --batch /path/to/poster/directory/
+
+# Legacy ImageMagick command (still works)
+convert poster.jpg -resize 200x300 -colorspace Gray -ordered-dither o8x8 images/1bit/movie-title.png
 ```
 
 ### Python Script
@@ -37,6 +40,9 @@ python3 hallmark_build.py
 
 ```
 hallmark/
+├── .github/
+│   └── workflows/
+│       └── daily-update.yml       # GitHub Actions for daily updates
 ├── .trmnlp.yml                    # TRMNL plugin config (time_zone, watch dirs)
 ├── README.md                      # User-facing documentation
 ├── AGENTS.md                      # This file - agent reference
@@ -80,6 +86,21 @@ hallmark/
   ]
 }
 ```
+
+## Font & Display Improvements
+
+### Enhanced Readability
+All templates now use improved typography for better readability on e-ink displays:
+- **Modern font stack**: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`
+- **Font smoothing**: `-webkit-font-smoothing: antialiased` and `-moz-osx-font-smoothing: grayscale`
+- **Better spacing**: Increased font sizes, improved line heights, and letter spacing
+- **Numeric styling**: `font-variant-numeric: oldstyle-nums` for better number display
+
+### Size Improvements
+- Headers: Increased from 16-28px to 18-32px
+- Movie titles: Increased from 11-14px to 13-16px
+- Body text: Increased from 10-12px to 11-13px
+- Better margins and line heights for improved readability
 
 ## How Templates Work
 
@@ -183,20 +204,37 @@ python3 send_to_trmnl.py --uuid abc123def456 --test-dynamic YOUR_DEVICE_API_KEY
 
 ### Daily Automatic Updates
 
-Set up a cron job to run daily and keep the plugin updated with only upcoming movies:
+Choose one of these methods to run daily updates:
+
+#### Option 1: GitHub Actions (Recommended)
+
+**Setup:**
+1. Go to your GitHub repository settings
+2. Navigate to "Secrets and variables" → "Actions"
+3. Add these secrets:
+   - `TRMNL_PLUGIN_UUID`: Your plugin UUID (ff947380-c98e-4e77-9547-1db5c71d2046)
+   - `TRMNL_DEVICE_API_KEY`: Your device API key (optional, for verification)
+
+**The workflow runs automatically** at 6 AM UTC daily.
+
+**Manual trigger:** You can also run it manually from the Actions tab.
+
+#### Option 2: Local Cron Job
+
+Set up a local cron job (if running on your own server):
 
 ```bash
 # Edit crontab
 crontab -e
 
-# Add this line to run at 6 AM daily (adjust path as needed):
+# Add this line to run at 6 AM daily:
 0 6 * * * cd /path/to/hallmark && python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
 
 # Alternative: Run every 12 hours
 0 */12 * * * cd /path/to/hallmark && python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
 ```
 
-**What this does:**
+**What daily updates do:**
 - Automatically filters out movies where the date has passed
 - Sends only upcoming movies to TRMNL
 - Keeps your plugin always showing current content

@@ -29,7 +29,10 @@ Displays 6 upcoming movies in a vertical stack
     height: 480px;
     padding: 15px;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-variant-numeric: oldstyle-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   .header {
@@ -40,9 +43,11 @@ Displays 6 upcoming movies in a vertical stack
   }
   
   .header h1 {
-    font-size: 18px;
+    font-size: 22px;
     margin: 0;
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.1;
   }
   
   .movies-list {
@@ -82,15 +87,17 @@ Displays 6 upcoming movies in a vertical stack
   }
   
   .movie-title {
-    font-size: 12px;
-    font-weight: bold;
-    margin: 0 0 4px 0;
-    line-height: 1.2;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
   }
-  
+
   .movie-date {
-    font-size: 10px;
+    font-size: 11px;
     margin: 2px 0;
+    font-weight: 500;
   }
   
   .premiere-badge {
