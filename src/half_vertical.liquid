@@ -3,25 +3,11 @@ Hallmark Christmas Movies - Half Vertical Layout (400×480)
 Displays 6 upcoming movies in a vertical stack
 {% endcomment %}
 
-{% comment %} Use webhook merge_variables for dynamic data {% endcomment %}
-{% assign schedule_data = merge_variables %}
-
-{% assign has_data = false %}
-{% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
-  {% assign has_data = true %}
-{% endif %}
-
-{% unless has_data %}
-  {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "Merry Christmas, Ted Cooper!|2025-10-25|20:00|Hallmark Channel|Robert Buckley, Kimberley Sustad|merry-christmas-ted-cooper.png^Finding Mr. Christmas|2025-10-27|20:00|Hallmark Channel|Jonathan Bennett|^Christmas On Duty|2025-11-01|20:00|Hallmark Channel|Janel Parrish, Parker Young|christmas-on-duty.png^A Newport Christmas|2025-11-02|20:00|Hallmark Channel|Ginna Claire Mason|a-newport-christmas.png" | split: "^" %}
-{% endunless %}
+{% comment %} Fetch data from GitHub using fetch_json {% endcomment %}
+{% assign schedule_data = 'https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/data/movies.json' | fetch_json %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
-{% if has_data %}
-  {% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
-{% else %}
-  {% assign upcoming_movies = fallback_movies %}
-{% endif %}
+{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
 
 <style>
   .plugin {
@@ -117,39 +103,23 @@ Displays 6 upcoming movies in a vertical stack
   </div>
   
   <div class="movies-list">
-    {% if has_data %}
-      {% for movie in upcoming_movies limit: 4 %}
-        <div class="movie">
-          <div class="movie-poster">
-            {% if movie.image %}
-              <img src="{{ movie.image }}" alt="{{ movie.title }}">
-            {% else %}
-              <div style="font-size: 10px;">🎬</div>
-            {% endif %}
-          </div>
-          <div class="movie-info">
-            <h2 class="movie-title">{{ movie.title | truncate: 30 }}</h2>
-            <p class="movie-date">{{ movie.date | date: "%b %d" }} • {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }}</p>
-            {% if movie.premiere %}
-              <span class="premiere-badge">PREMIERE</span>
-            {% endif %}
-          </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      {% for movie_data in upcoming_movies limit: 4 %}
-        {% assign movie_parts = movie_data | split: "|" %}
-        <div class="movie">
-          <div class="movie-poster">
+    {% for movie in upcoming_movies limit: 4 %}
+      <div class="movie">
+        <div class="movie-poster">
+          {% if movie.image %}
+            <img src="https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/{{ movie.image }}" alt="{{ movie.title }}">
+          {% else %}
             <div style="font-size: 10px;">🎬</div>
-          </div>
-          <div class="movie-info">
-            <h2 class="movie-title">{{ movie_parts[0] | truncate: 30 }}</h2>
-            <p class="movie-date">{{ movie_parts[1] | date: "%b %d" }} • {{ movie_parts[2] | replace: ":00", "" | replace: "20", "8 PM" }}</p>
-            <span class="premiere-badge">PREMIERE</span>
-          </div>
+          {% endif %}
         </div>
-      {% endfor %}
-    {% endif %}
+        <div class="movie-info">
+          <h2 class="movie-title">{{ movie.title | truncate: 30 }}</h2>
+          <p class="movie-date">{{ movie.date | date: "%b %d" }} • {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }}</p>
+          {% if movie.premiere %}
+            <span class="premiere-badge">PREMIERE</span>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
   </div>
 </div>

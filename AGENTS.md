@@ -105,29 +105,20 @@ All templates now use improved typography for better readability on e-ink displa
 ## How Templates Work
 
 ### Data Loading Pattern
-All templates use webhooks for dynamic data with fallback for local development:
+All templates use `fetch_json` to poll data directly from GitHub for real-time updates:
 ```liquid
-{% comment %} Use webhook merge_variables for dynamic data {% endcomment %}
-{% assign schedule_data = merge_variables %}
+{% comment %} Fetch data from GitHub using fetch_json {% endcomment %}
+{% assign schedule_data = 'https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/data/movies.json' | fetch_json %}
 
-{% comment %} Check if we have valid webhook data {% endcomment %}
-{% assign has_data = false %}
-{% if schedule_data and schedule_data.movies and schedule_data.movies.size > 0 %}
-  {% assign has_data = true %}
-{% endif %}
-
-{% comment %} Hardcoded fallback for local development {% endcomment %}
-{% unless has_data %}
-  {% assign fallback_season = "2025 Countdown to Christmas" %}
-  {% assign fallback_movies = "Title|2025-10-17|20:00|Channel|Stars|true^..." | split: "^" %}
-{% endunless %}
+{% assign today = "now" | date: "%Y-%m-%d" %}
+{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
 ```
 
 **Why This Pattern?**
-- `fetch_json` only works on TRMNL platform, not local Docker server
-- `site.data.movies` only works in local Jekyll environment with `_data/` folder
-- Hardcoded string fallback ensures local testing always shows data
-- Production uses live GitHub raw URL for real-time updates
+- Direct polling from GitHub ensures always up-to-date data
+- No fallback needed - templates work on TRMNL platform with live data
+- Local Docker testing will not show data (fetch_json not supported locally)
+- Updates to `data/movies.json` are immediately available when pushed to GitHub
 
 ### Date Filtering Logic
 ```liquid
@@ -154,90 +145,54 @@ Templates convert 24-hour to 12-hour display:
 {% endif %}
 ```
 
-### Rendering Movies (Dual Path)
+### Rendering Movies
 ```liquid
-{% if has_data %}
-  {% for movie in upcoming_movies limit: 4 %}
-    <h2>{{ movie.title }}</h2>
-    <p>{{ movie.date | date: "%b %d" }}</p>
-  {% endfor %}
-{% else %}
-  {% for movie_data in upcoming_movies limit: 4 %}
-    {% assign movie_parts = movie_data | split: "|" %}
-    <h2>{{ movie_parts[0] }}</h2>
-    <p>{{ movie_parts[1] | date: "%b %d" }}</p>
-  {% endfor %}
-{% endif %}
+{% for movie in upcoming_movies limit: 4 %}
+  <h2>{{ movie.title }}</h2>
+  <p>{{ movie.date | date: "%b %d" }}</p>
+{% endfor %}
 ```
 
-## Dynamic Updates with Webhooks
+## Dynamic Updates via Polling
 
-The plugin now uses TRMNL's webhook system for dynamic data updates instead of static GitHub fetches. This allows real-time updates to movie schedules without redeploying the plugin.
+The plugin now polls data directly from GitHub using `fetch_json`, ensuring always up-to-date movie schedules without manual intervention.
 
-### Setup Webhook Updates
+### Setup Polling Updates
 
 1. **Create Plugin on TRMNL**: Go to usetrmnl.com and create a new private plugin
-2. **Get Webhook UUID**: After saving the plugin, copy the UUID from the Webhook URL field
-3. **Send Initial Data**: Use the provided script to send movie data:
-   ```bash
-   pip install requests  # if not installed
-   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
-   ```
-4. **Get Device API Key** (optional, for screen checking): Go to Devices > Edit in TRMNL dashboard
-5. **Configure Update Frequency**: Set the plugin's update interval in settings.yml (default: 3600 seconds)
+2. **Upload Templates**: Upload all `.liquid` files from `src/` to templates
+3. **Configure Update Frequency**: Set the plugin's update interval in settings.yml (default: 3600 seconds)
+4. **Push Data Updates**: Simply push changes to `data/movies.json` to GitHub - TRMNL will fetch latest data on next refresh
 
-### Webhook Script Usage
+### Data Update Script
+
+The `send_to_trmnl.py` script is no longer needed for TRMNL updates since the plugin polls directly from GitHub. However, it can still be used to validate and preview data changes:
 
 ```bash
-# Send current movie data to TRMNL
-python3 send_to_trmnl.py --uuid abc123def456
+# Dry run to validate JSON data
+python3 send_to_trmnl.py --dry-run
 
-# Dry run to see what would be sent
-python3 send_to_trmnl.py --uuid abc123def456 --dry-run
-
-# Send data and check current screen (requires device API key)
-python3 send_to_trmnl.py --uuid abc123def456 --check-screen YOUR_DEVICE_API_KEY
-
-# Test dynamic updates (requires device API key)
-python3 send_to_trmnl.py --uuid abc123def456 --test-dynamic YOUR_DEVICE_API_KEY
+# Preview what data would be sent (for reference)
+python3 send_to_trmnl.py --preview
 ```
 
 ### Daily Automatic Updates
 
-Choose one of these methods to run daily updates:
-
-#### Option 1: GitHub Actions (Recommended)
+Use GitHub Actions to automatically update the movie data:
 
 **Setup:**
 1. Go to your GitHub repository settings
 2. Navigate to "Secrets and variables" → "Actions"
-3. Add these secrets:
-   - `TRMNL_PLUGIN_UUID`: Your plugin UUID (ff947380-c98e-4e77-9547-1db5c71d2046)
-   - `TRMNL_DEVICE_API_KEY`: Your device API key (optional, for verification)
+3. No secrets needed since we're using polling
 
-**The workflow runs automatically** at 6 AM UTC daily.
+**The workflow runs automatically** at 6 AM UTC daily to update `data/movies.json` on GitHub.
 
 **Manual trigger:** You can also run it manually from the Actions tab.
 
-#### Option 2: Local Cron Job
-
-Set up a local cron job (if running on your own server):
-
-```bash
-# Edit crontab
-crontab -e
-
-# Add this line to run at 6 AM daily:
-0 6 * * * cd /path/to/hallmark && python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
-
-# Alternative: Run every 12 hours
-0 */12 * * * cd /path/to/hallmark && python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
-```
-
 **What daily updates do:**
 - Automatically filters out movies where the date has passed
-- Sends only upcoming movies to TRMNL
-- Keeps your plugin always showing current content
+- Updates the JSON file on GitHub
+- TRMNL devices fetch the latest data on next refresh
 - No manual intervention needed
 
 ### Updating Movie Data
@@ -245,19 +200,16 @@ crontab -e
 To update the schedule (if Hallmark changes it):
 
 1. Edit `data/movies.json` with new movie information
-2. Run the webhook script to push updates to TRMNL:
-   ```bash
-   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
-   ```
-3. TRMNL devices will refresh with new data on next update cycle
+2. Push to GitHub - TRMNL devices will fetch the latest data on next refresh
+3. No need to re-upload templates unless layout changes
 
-### Benefits of Webhook Approach
+### Benefits of Polling Approach
 
 - **Dynamic Updates**: Change movie data without redeploying templates
-- **Real-time Changes**: Push updates immediately to all devices
+- **Real-time Changes**: Updates available immediately after GitHub push
 - **Version Control**: Keep movie data in git alongside templates
-- **Local Development**: Templates still work locally with fallback data
-- **Screen Verification**: Use private API to check current display content
+- **No API Keys**: No need for TRMNL API keys or webhook UUIDs
+- **Automatic Refresh**: TRMNL fetches latest data on schedule
 
 ## Layout Specifications
 
@@ -282,8 +234,7 @@ To update the schedule (if Hallmark changes it):
 - [x] Premiere badge indicators
 - [x] Channel information display
 - [x] GitHub repo created: https://github.com/snucko/hallmark-christmas-trmnl
-- [x] Webhook integration for dynamic data updates on TRMNL platform
-- [x] Hardcoded fallback data for local development
+- [x] Polling integration for dynamic data updates on TRMNL platform
 - [x] Both `_data/` and `data/` directories for compatibility
 - [x] Local Docker testing working
 - [x] Placeholder images created for all movies in `images/1bit/`
@@ -335,7 +286,6 @@ When ready to test:
 - [x] Verify time conversion (24hr → 12hr display)
 - [x] Check channel information displays
 - [x] Test image fallbacks (🎬 emoji if no image)
-- [x] Test hardcoded fallback data works locally
 - [ ] Test fetch_json works on TRMNL platform
 - [ ] Verify GitHub raw URL is accessible
 
@@ -357,30 +307,22 @@ When ready to test:
    - Upload all `.liquid` files from `src/` to templates
    - Upload `settings.yml` to plugin root
 
-3. **Send Initial Data**
-   - Copy the webhook UUID from the plugin configuration
-   - Run: `python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID`
-
-4. **Configure**
+3. **Configure**
    - Set update interval: 3600 seconds
    - Set time zone: America/New_York
    - Enable desired layouts
 
-5. **Test on Device**
+4. **Test on Device**
    - Assign to TRMNL device
    - Verify display updates
    - Check date filtering works in production
-   - Confirm merge_variables are loaded from webhook
+   - Confirm fetch_json loads data from GitHub
 
 ### Updating Movie Data
 To update movies after deployment:
 1. Edit `data/movies.json` locally
-2. Run the webhook script to push updates to TRMNL:
-   ```
-   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
-   ```
-3. TRMNL devices will refresh with new data on next update cycle
-4. No need to re-upload templates unless layout changes
+2. Push to GitHub - TRMNL devices will fetch the latest data on next refresh
+3. No need to re-upload templates unless layout changes
 
 ## Maintenance Notes
 
@@ -395,10 +337,7 @@ To update movies after deployment:
 1. Edit `data/movies.json`
 2. Add new movie object with all fields
 3. Generate/add poster image to `images/1bit/`
-4. Run the webhook script to push updates to TRMNL:
-   ```
-   python3 send_to_trmnl.py --uuid YOUR_PLUGIN_UUID
-   ```
+4. Push to GitHub - TRMNL devices will fetch the latest data on next refresh
 
 ## Key Technical Details
 
@@ -408,11 +347,11 @@ To update movies after deployment:
 - **Python 3** (optional): For hallmark_build.py script
 - **ImageMagick or PIL** (optional): For image conversion
 
-### Webhook Integration
-- Data is sent via TRMNL webhooks for dynamic updates
+### Polling Integration
+- Data is fetched directly from GitHub raw URLs using `fetch_json`
 - No external API keys needed for Hallmark data
-- TRMNL webhook rate limits apply (12x/hour for free, 30x for TRMNL+)
-- Updates triggered by running the send_to_trmnl.py script
+- TRMNL fetches data on each plugin refresh cycle
+- Updates triggered by pushing changes to GitHub
 
 ### Time Zone Handling
 - All times stored in 24-hour format (Eastern Time)
@@ -434,11 +373,16 @@ If Docker unavailable, templates can be tested by:
 - Check Docker logs for Liquid errors
 
 ### Templates not showing movies (TRMNL Platform)
-- Verify GitHub URL is accessible: https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/_data/movies.json
+- Verify GitHub URL is accessible: https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/data/movies.json
 - Check TRMNL platform supports `fetch_json` filter
 - Verify movies.json is valid JSON (use `python3 -m json.tool data/movies.json`)
 - Check date format in movies.json (must be YYYY-MM-DD)
 - Verify movies have dates >= current date
+
+### Templates not showing movies (Local)
+- **Expected behavior**: `fetch_json` only works on TRMNL platform, not local Docker
+- Local testing will show blank screens since no data is fetched
+- Use TRMNL platform for full functionality testing
 
 ### Images not displaying
 - Verify image paths match files in `images/1bit/`
@@ -457,11 +401,6 @@ If Docker unavailable, templates can be tested by:
 - Check time_zone setting in .trmnlp.yml
 - Ensure Liquid date filter is supported
 - Test date comparison: `{{ "2025-10-17" | date: "%Y-%m-%d" }}`
-
-### merge_variables not working locally
-- **Expected behavior**: `merge_variables` only available when webhook data is sent
-- Local Docker uses hardcoded fallback data instead
-- This is why we have the dual-path pattern in templates
 
 ## Movie List Summary
 
