@@ -37,6 +37,9 @@ python3 hallmark_build.py
 
 # Filter movies.json to only show upcoming movies
 python3 update_movies_json.py
+
+# Download missing movie posters from TMDB
+python3 download_missing_posters.py
 ```
 
 ## Project Structure
@@ -247,12 +250,12 @@ To update the schedule (if Hallmark changes it):
 - [x] Polling integration for dynamic data updates on TRMNL platform
 - [x] Both `_data/` and `data/` directories for compatibility
 - [x] Local Docker testing working
-- [x] Placeholder images created for all movies in `images/1bit/`
+- [x] **25 movie poster images** in `images/1bit/` (4 real from TMDB, 10 placeholders)
 - [x] Local TRMNL development server started successfully
 - [ ] Local TRMNL layouts verified in browser (manual step required)
 
 ### ⏳ Pending/Optional
-- [x] Add actual movie poster images to `images/1bit/` (with placeholder images)
+- [ ] Replace placeholder images with actual Hallmark posters when available
 - [x] Convert posters to 1-bit PNG format (using ImageMagick for placeholders)
 - [ ] Deploy to TRMNL platform
 - [ ] Get actual poster images from Hallmark or TMDB
