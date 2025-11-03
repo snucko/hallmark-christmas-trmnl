@@ -4,94 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Mistletoe Murders",
-      "date": "2025-10-17",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 60,
-      "description": "Season 2 premiere. Two episodes continue each week through Fri, Nov 21.",
-      "stars": "Sarah Drew, Peter Mooney",
-      "premiere": true,
-      "image": "images/1bit/mistletoe-murders.png"
-    },
-    {
-      "title": "A Royal Montana Christmas",
-      "date": "2025-10-18",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A princess escapes to a Montana ranch and finds romance.",
-      "stars": "Fiona Gubelmann, Warren Christie",
-      "premiere": true,
-      "image": "images/1bit/a-royal-montana-christmas.png"
-    },
-    {
-      "title": "A Christmas Angel Match",
-      "date": "2025-10-19",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Two Christmas Angels are paired to save a destined romance.",
-      "stars": "Meghan Ory, Benjamin Ayres",
-      "premiere": true,
-      "image": "images/1bit/a-christmas-angel-match.png"
-    },
-    {
-      "title": "Merry Christmas, Ted Cooper!",
-      "date": "2025-10-25",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A hapless weatherman tries to turn his holiday luck around.",
-      "stars": "Robert Buckley, Kimberley Sustad",
-      "premiere": true,
-      "image": "images/1bit/merry-christmas-ted-cooper.png"
-    },
-    {
-      "title": "Finding Mr. Christmas (S2)",
-      "date": "2025-10-27",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 60,
-      "description": "Reality competition series premiere; new episodes Mondays through Dec 15.",
-      "stars": "Host: Jonathan Bennett; Lead Judge: Melissa Peterman",
-      "premiere": true,
-      "image": "images/1bit/finding-mr-christmas.png"
-    },
-    {
-      "title": "Baked With Love: Holiday",
-      "date": "2025-10-27",
-      "time": "21:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 60,
-      "description": "Holiday baking competition series premiere.",
-      "stars": "Host: Tamera Mowry-Housley; Guest: Anna Haugh; Vaughn Vreeland",
-      "premiere": true,
-      "image": "images/1bit/baked-with-love-holiday.png"
-    },
-    {
-      "title": "Christmas On Duty",
-      "date": "2025-11-01",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Rival Marines are assigned Christmas duty and must save the holiday.",
-      "stars": "Janel Parrish, Parker Young",
-      "premiere": true,
-      "image": "images/1bit/christmas-on-duty.png"
-    },
-    {
-      "title": "A Newport Christmas",
-      "date": "2025-11-02",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A 1905 Newport socialite time-travels to 2025 and falls for a sailor.",
-      "stars": "Ginna Claire Mason, Wes Brown",
-      "premiere": true,
-      "image": "images/1bit/a-newport-christmas.png"
-    },
-    {
       "title": "Christmas Above the Clouds",
       "date": "2025-11-08",
       "time": "20:00",
@@ -196,7 +108,7 @@
       "time": "18:00",
       "channel": "Hallmark Channel",
       "duration_minutes": 120,
-      "description": "Estranged sisters honor grandma’s wish on a trip to the French Alps.",
+      "description": "Estranged sisters honor grandma\u2019s wish on a trip to the French Alps.",
       "stars": "Ashley Williams, Laci J Mailey, Julien Samani",
       "premiere": true,
       "image": "images/1bit/an-alpine-holiday.png"
@@ -224,18 +136,18 @@
       "image": "images/1bit/the-christmas-cup.png"
     },
     {
-      "title": "Christmas at the Catnip Café",
+      "title": "Christmas at the Catnip Caf\u00e9",
       "date": "2025-11-30",
       "time": "20:00",
       "channel": "Hallmark Channel",
       "duration_minutes": 120,
-      "description": "Heirs to a cat café spar, fundraise, and fall in love.",
+      "description": "Heirs to a cat caf\u00e9 spar, fundraise, and fall in love.",
       "stars": "Erin Cahill, Paul Campbell",
       "premiere": true,
       "image": "images/1bit/christmas-at-the-catnip-cafe.png"
     },
     {
-      "title": "Twelve Dates ’Til Christmas (S1)",
+      "title": "Twelve Dates \u2019Til Christmas (S1)",
       "date": "2025-12-05",
       "time": "20:00",
       "channel": "Hallmark Channel",
@@ -262,7 +174,7 @@
       "time": "20:00",
       "channel": "Hallmark Channel",
       "duration_minutes": 120,
-      "description": "Neighbors team up for a happily single Christmas—until sparks fly.",
+      "description": "Neighbors team up for a happily single Christmas\u2014until sparks fly.",
       "stars": "Lyndsy Fonseca, Daniel Lissing",
       "premiere": true,
       "image": "images/1bit/single-on-the-25th.png"
@@ -285,7 +197,7 @@
       "channel": "Hallmark Channel",
       "duration_minutes": 120,
       "description": "Rival choir directors unite for a joint Hanukkah/Christmas program.",
-      "stars": "Brooke D’Orsay, Jake Epstein",
+      "stars": "Brooke D\u2019Orsay, Jake Epstein",
       "premiere": true,
       "image": "images/1bit/oy-to-the-world.png"
     },
@@ -295,7 +207,7 @@
       "time": "20:00",
       "channel": "Hallmark Channel",
       "duration_minutes": 120,
-      "description": "A couple 'takes a break' while hosting family—pretending to be fine.",
+      "description": "A couple 'takes a break' while hosting family\u2014pretending to be fine.",
       "stars": "Hunter King, Evan Roderick",
       "premiere": true,
       "image": "images/1bit/a-make-or-break-holiday.png"
