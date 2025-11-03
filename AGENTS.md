@@ -34,6 +34,9 @@ convert poster.jpg -resize 200x300 -colorspace Gray -ordered-dither o8x8 images/
 ```bash
 # Run reference builder script (movies.json already exists)
 python3 hallmark_build.py
+
+# Filter movies.json to only show upcoming movies
+python3 update_movies_json.py
 ```
 
 ## Project Structure
@@ -190,8 +193,9 @@ Use GitHub Actions to automatically update the movie data:
 **Manual trigger:** You can also run it manually from the Actions tab.
 
 **What daily updates do:**
-- Automatically filters out movies where the date has passed
-- Updates the JSON file on GitHub
+- Automatically filters out movies where the date has passed from `movies.json`
+- Commits and pushes the updated JSON file to GitHub
+- Sends filtered data via webhook to TRMNL (backup method)
 - TRMNL devices fetch the latest data on next refresh
 - No manual intervention needed
 
