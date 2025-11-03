@@ -108,20 +108,26 @@ All templates now use improved typography for better readability on e-ink displa
 ## How Templates Work
 
 ### Data Loading Pattern
-All templates use `fetch_json` to poll data directly from GitHub for real-time updates:
+Templates use TRMNL's polling strategy to fetch data from GitHub:
+
+**Plugin Configuration:**
+- **Strategy:** Polling
+- **Polling URL:** `https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/data/movies.json`
+
+**Template Access:**
 ```liquid
-{% comment %} Fetch data from GitHub using fetch_json {% endcomment %}
-{% assign schedule_data = 'https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/data/movies.json' | fetch_json %}
+{% comment %} Data comes from polling URL in plugin settings {% endcomment %}
+{% assign schedule_data = movies %}
 
 {% assign today = "now" | date: "%Y-%m-%d" %}
-{% assign upcoming_movies = schedule_data.movies | where_exp: "movie", "movie.date >= today" %}
+{% assign upcoming_movies = schedule_data | where_exp: "movie", "movie.date >= today" %}
 ```
 
 **Why This Pattern?**
-- Direct polling from GitHub ensures always up-to-date data
-- No fallback needed - templates work on TRMNL platform with live data
-- Local Docker testing will not show data (fetch_json not supported locally)
-- Updates to `data/movies.json` are immediately available when pushed to GitHub
+- TRMNL polls GitHub directly for latest data every refresh cycle
+- No webhooks needed - pure polling strategy
+- Data updates automatically when GitHub JSON changes
+- Works on all TRMNL devices with polling enabled
 
 ### Date Filtering Logic
 ```liquid
@@ -158,14 +164,15 @@ Templates convert 24-hour to 12-hour display:
 
 ## Dynamic Updates via Polling
 
-The plugin now polls data directly from GitHub using `fetch_json`, ensuring always up-to-date movie schedules without manual intervention.
+The plugin uses TRMNL's polling strategy to fetch data directly from GitHub, ensuring always up-to-date movie schedules without manual intervention.
 
 ### Setup Polling Updates
 
 1. **Create Plugin on TRMNL**: Go to usetrmnl.com and create a new private plugin
-2. **Upload Templates**: Upload all `.liquid` files from `src/` to templates
-3. **Configure Update Frequency**: Set the plugin's update interval in settings.yml (default: 3600 seconds)
-4. **Push Data Updates**: Simply push changes to `data/movies.json` to GitHub - TRMNL will fetch latest data on next refresh
+2. **Set Strategy to Polling**: Choose "Polling" strategy in plugin settings
+3. **Set Polling URL**: `https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/data/movies.json`
+4. **Upload Templates**: Upload all `.liquid` files from `src/` to templates
+5. **Push Data Updates**: Simply push changes to `data/movies.json` to GitHub - TRMNL will fetch latest data on next refresh
 
 ### Data Update Script
 
@@ -195,9 +202,8 @@ Use GitHub Actions to automatically update the movie data:
 **What daily updates do:**
 - Automatically filters out movies where the date has passed from `movies.json`
 - Commits and pushes the updated JSON file to GitHub
-- Sends filtered data via webhook to TRMNL (backup method)
-- TRMNL devices fetch the latest data on next refresh
-- No manual intervention needed
+- TRMNL devices poll the latest data automatically on next refresh
+- No webhooks or manual intervention needed
 
 ### Updating Movie Data
 
