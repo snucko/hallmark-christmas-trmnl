@@ -44,22 +44,8 @@ jobs:
           echo "Committed and pushed updated movies.json"
         fi
 
-    - name: Update TRMNL plugin
-      env:
-        TRMNL_PLUGIN_UUID: ${{ secrets.TRMNL_PLUGIN_UUID }}
+    - name: Plugin Update Complete
       run: |
-        echo "Running daily TRMNL plugin update..."
-        python3 send_to_trmnl.py --uuid $TRMNL_PLUGIN_UUID
-
-    - name: Check screen (optional verification)
-      env:
-        TRMNL_PLUGIN_UUID: ${{ secrets.TRMNL_PLUGIN_UUID }}
-        TRMNL_DEVICE_API_KEY: ${{ secrets.TRMNL_DEVICE_API_KEY }}
-      run: |
-        echo "Verifying update (optional)..."
-        if [ -n "$TRMNL_DEVICE_API_KEY" ]; then
-          python3 send_to_trmnl.py --uuid $TRMNL_PLUGIN_UUID --check-screen $TRMNL_DEVICE_API_KEY
-        else
-          echo "Device API key not provided - skipping screen verification"
-        fi
-      continue-on-error: true
+        echo "✅ Plugin data updated on GitHub"
+        echo "TRMNL will poll the updated data automatically via polling strategy"
+        echo "No webhook needed - polling handles data fetching"
