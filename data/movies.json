@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Christmas Above the Clouds",
-      "date": "2025-11-08",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A CEO on a Christmas flight is guided by three spirits.",
-      "stars": "Erin Krakow, Tyler Hynes",
-      "premiere": true,
-      "image": "images/1bit/christmas-above-the-clouds.png"
-    },
-    {
       "title": "A Keller Christmas Vacation",
       "date": "2025-11-09",
       "time": "20:00",
