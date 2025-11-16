@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Three Wisest Men",
-      "date": "2025-11-15",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "The Brenner family tackles big changes during one last Christmas at home.",
-      "stars": "Paul Campbell, Tyler Hynes, Andrew Walker, Margaret Colin",
-      "premiere": true,
-      "image": "images/1bit/three-wisest-men.png"
-    },
-    {
       "title": "Tidings For the Season",
       "date": "2025-11-16",
       "time": "20:00",
