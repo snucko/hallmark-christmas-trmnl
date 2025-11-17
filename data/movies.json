@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Tidings For the Season",
-      "date": "2025-11-16",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A newscaster rediscovers community and love through 'good news' stories.",
-      "stars": "Tamera Mowry-Housley, B.J. Britt, Elijah-Justus Lewis",
-      "premiere": true,
-      "image": "images/1bit/tidings-for-the-season.png"
-    },
-    {
       "title": "Holiday Touchdown: A Bills Love Story",
       "date": "2025-11-22",
       "time": "20:00",
