@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Holiday Touchdown: A Bills Love Story",
-      "date": "2025-11-22",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Neighbors, Bills Mafia, and a heartfelt family mystery.",
-      "stars": "Holland Roden, Matthew Daddario, Joe Pantoliano, Tracy Pollan, Caroline Aaron, Steve Schirripa, Patti Murin, Patrick Mulvey",
-      "premiere": true,
-      "image": "images/1bit/holiday-touchdown-a-bills-love-story.png"
-    },
-    {
       "title": "Melt My Heart This Christmas",
       "date": "2025-11-23",
       "time": "20:00",
