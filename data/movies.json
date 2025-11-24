@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Melt My Heart This Christmas",
-      "date": "2025-11-23",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A glassblower's secret art and a romance tested by a reveal.",
-      "stars": "Laura Vandervoort, Stephen Huszar",
-      "premiere": true,
-      "image": "images/1bit/melt-my-heart-this-christmas.png"
-    },
-    {
       "title": "We Met in December",
       "date": "2025-11-27",
       "time": "20:00",
