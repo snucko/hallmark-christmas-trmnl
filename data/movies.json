@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "We Met in December",
-      "date": "2025-11-27",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Two strangers search for each other after a perfect holiday meet-cute.",
-      "stars": "Autumn Reeser, Niall Matter",
-      "premiere": true,
-      "image": "images/1bit/we-met-in-december.png"
-    },
-    {
       "title": "The Snow Must Go On",
       "date": "2025-11-28",
       "time": "18:00",
