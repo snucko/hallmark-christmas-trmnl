@@ -4,28 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "The Snow Must Go On",
-      "date": "2025-11-28",
-      "time": "18:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A former Broadway star directs a high school Christmas musical.",
-      "stars": "Heather Hemmens, Corey Cott",
-      "premiere": true,
-      "image": "images/1bit/the-snow-must-go-on.png"
-    },
-    {
-      "title": "The More the Merrier",
-      "date": "2025-11-28",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A snowed-in hospital and a Christmas Eve baby boom.",
-      "stars": "Rachel Boston, Brendan Penny",
-      "premiere": true,
-      "image": "images/1bit/the-more-the-merrier.png"
-    },
-    {
       "title": "An Alpine Holiday",
       "date": "2025-11-29",
       "time": "18:00",
