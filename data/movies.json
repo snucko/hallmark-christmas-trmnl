@@ -4,28 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "An Alpine Holiday",
-      "date": "2025-11-29",
-      "time": "18:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Estranged sisters honor grandma\u2019s wish on a trip to the French Alps.",
-      "stars": "Ashley Williams, Laci J Mailey, Julien Samani",
-      "premiere": true,
-      "image": "images/1bit/an-alpine-holiday.png"
-    },
-    {
-      "title": "A Grand Ole Opry Christmas",
-      "date": "2025-11-29",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Time-bending visit to 1995 at the Opry reignites a daughter's song.",
-      "stars": "Nikki DeLoach, Kristoffer Polaha (+ cameos incl. Brad Paisley)",
-      "premiere": true,
-      "image": "images/1bit/a-grand-ole-opry-christmas.png"
-    },
-    {
       "title": "The Christmas Cup",
       "date": "2025-11-30",
       "time": "18:00",
