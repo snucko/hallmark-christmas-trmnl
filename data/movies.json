@@ -4,28 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "The Christmas Cup",
-      "date": "2025-11-30",
-      "time": "18:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A Marine leads her hometown team and finds new ways to serve.",
-      "stars": "Rhiannon Fish, Ben Rosenbaum",
-      "premiere": true,
-      "image": "images/1bit/the-christmas-cup.png"
-    },
-    {
-      "title": "Christmas at the Catnip Caf\u00e9",
-      "date": "2025-11-30",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Heirs to a cat caf\u00e9 spar, fundraise, and fall in love.",
-      "stars": "Erin Cahill, Paul Campbell",
-      "premiere": true,
-      "image": "images/1bit/christmas-at-the-catnip-cafe.png"
-    },
-    {
       "title": "Twelve Dates \u2019Til Christmas (S1)",
       "date": "2025-12-05",
       "time": "20:00",
