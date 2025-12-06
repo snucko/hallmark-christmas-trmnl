@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Twelve Dates \u2019Til Christmas (S1)",
-      "date": "2025-12-05",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 60,
-      "description": "Series premiere; new episodes Fridays through Dec 19.",
-      "stars": "Mae Whitman, Julian Morris, Toby Sandeman, Nathaniel Parker, Jane Seymour, Lucy Eaton, Mary McDonnell",
-      "premiere": true,
-      "image": "images/1bit/twelve-dates-til-christmas.png"
-    },
-    {
       "title": "She's Making A List",
       "date": "2025-12-06",
       "time": "20:00",
