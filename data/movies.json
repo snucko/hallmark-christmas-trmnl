@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "She's Making A List",
-      "date": "2025-12-06",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A Naughty-or-Nice inspector falls for a widowed dad.",
-      "stars": "Lacey Chabert, Andrew Walker",
-      "premiere": true,
-      "image": "images/1bit/shes-making-a-list.png"
-    },
-    {
       "title": "Single on the 25th",
       "date": "2025-12-07",
       "time": "20:00",
