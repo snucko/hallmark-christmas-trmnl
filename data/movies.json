@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Single on the 25th",
-      "date": "2025-12-07",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Neighbors team up for a happily single Christmas\u2014until sparks fly.",
-      "stars": "Lyndsy Fonseca, Daniel Lissing",
-      "premiere": true,
-      "image": "images/1bit/single-on-the-25th.png"
-    },
-    {
       "title": "A Suite Holiday Romance",
       "date": "2025-12-13",
       "time": "20:00",
