@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "A Suite Holiday Romance",
-      "date": "2025-12-13",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A ghostwriter and a 'lord' fall for each other at a NYC hotel.",
-      "stars": "Jessy Schram, Dominic Sherwood",
-      "premiere": true,
-      "image": "images/1bit/a-suite-holiday-romance.png"
-    },
-    {
       "title": "Oy to the World!",
       "date": "2025-12-14",
       "time": "20:00",
