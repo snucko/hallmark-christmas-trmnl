@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "Oy to the World!",
-      "date": "2025-12-14",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Rival choir directors unite for a joint Hanukkah/Christmas program.",
-      "stars": "Brooke D\u2019Orsay, Jake Epstein",
-      "premiere": true,
-      "image": "images/1bit/oy-to-the-world.png"
-    },
-    {
       "title": "A Make Or Break Holiday",
       "date": "2025-12-20",
       "time": "20:00",
