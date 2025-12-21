@@ -4,17 +4,6 @@
   "end_date": "2025-12-25",
   "movies": [
     {
-      "title": "A Make Or Break Holiday",
-      "date": "2025-12-20",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A couple 'takes a break' while hosting family\u2014pretending to be fine.",
-      "stars": "Hunter King, Evan Roderick",
-      "premiere": true,
-      "image": "images/1bit/a-make-or-break-holiday.png"
-    },
-    {
       "title": "The Christmas Baby",
       "date": "2025-12-21",
       "time": "20:00",
