@@ -2,17 +2,5 @@
   "season": "2025 Countdown to Christmas",
   "start_date": "2025-10-17",
   "end_date": "2025-12-25",
-  "movies": [
-    {
-      "title": "The Christmas Baby",
-      "date": "2025-12-21",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "A couple faces unexpected parenthood days before Christmas.",
-      "stars": "Ali Liebert, Katherine Barrell, Barbara Niven",
-      "premiere": true,
-      "image": "images/1bit/the-christmas-baby.png"
-    }
-  ]
+  "movies": []
 }
