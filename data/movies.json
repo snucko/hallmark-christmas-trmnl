@@ -1,6 +1,62 @@
 {
-  "season": "2025 Countdown to Christmas",
-  "start_date": "2025-10-17",
-  "end_date": "2025-12-25",
-  "movies": []
+  "season": "2026 Fall into Love",
+  "start_date": "2026-08-22",
+  "end_date": "2026-09-26",
+  "movies": [
+    {
+      "title": "Much About Love",
+      "date": "2026-08-29",
+      "time": "20:00",
+      "channel": "Hallmark Channel",
+      "duration_minutes": 120,
+      "description": "",
+      "stars": "Ashley Williams, Niall Matter",
+      "premiere": true,
+      "image": "images/1bit/much-about-love.png"
+    },
+    {
+      "title": "Haunted Harmony Mysteries: Prelude to a Wedding",
+      "date": "2026-09-05",
+      "time": "20:00",
+      "channel": "Hallmark Channel",
+      "duration_minutes": 120,
+      "description": "",
+      "stars": "Tamera Mowry-Housley, Risteard Cooper, Marco Grazzini",
+      "premiere": true,
+      "image": "images/1bit/haunted-harmony-mysteries-prelude-to-a-wedding.png"
+    },
+    {
+      "title": "Falling Into Place",
+      "date": "2026-09-12",
+      "time": "20:00",
+      "channel": "Hallmark Channel",
+      "duration_minutes": 120,
+      "description": "",
+      "stars": "Alvina August, Nathan Witte, Stephanie Bennett, Geoff Gustafson",
+      "premiere": true,
+      "image": "images/1bit/falling-into-place.png"
+    },
+    {
+      "title": "Garage Sale Mysteries: Murder Takes the Stage",
+      "date": "2026-09-19",
+      "time": "20:00",
+      "channel": "Hallmark Channel",
+      "duration_minutes": 120,
+      "description": "",
+      "stars": "Lori Loughlin, Steve Bacic",
+      "premiere": true,
+      "image": "images/1bit/garage-sale-mysteries-murder-takes-the-stage.png"
+    },
+    {
+      "title": "Pumpkin Regatta Romance",
+      "date": "2026-09-26",
+      "time": "20:00",
+      "channel": "Hallmark Channel",
+      "duration_minutes": 120,
+      "description": "",
+      "stars": "Mishael Morgan, Corey Sevier",
+      "premiere": true,
+      "image": "images/1bit/pumpkin-regatta-romance.png"
+    }
+  ]
 }

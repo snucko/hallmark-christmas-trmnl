@@ -1,8 +1,8 @@
 ---
-plugin_name: Hallmark Christmas Movies
-description: Display the 2025 Hallmark Christmas movie schedule
-version: 1.0.0
-author: Christmas Movie Fan
+plugin_name: Hallmark Movie Guide
+description: Display the current Hallmark Channel movie premiere schedule
+version: 2.0.0
+author: Hallmark Movie Fan
 
 custom_fields: []
 
