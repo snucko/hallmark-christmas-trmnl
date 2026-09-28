@@ -127,7 +127,7 @@ Displays 1-2 featured movies with larger poster for "Tonight's Movie" or next up
 
 <div class="plugin">
   <div class="header">
-    <h1>🎃 Hallmark Movies 🎃</h1>
+    <h1>🎄 Hallmark Movies 🎄</h1>
   </div>
   
   {% if tonight_movies.size > 0 %}
@@ -143,7 +143,7 @@ Displays 1-2 featured movies with larger poster for "Tonight's Movie" or next up
       <div class="movie-info">
         <p class="tonight-label">Tonight!</p>
         <h2 class="movie-title">{{ featured.title }}</h2>
-        <p class="movie-time">{{ featured.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }} ET</p>
+        <p class="movie-time">{{ featured.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" | replace: "22", "10 PM" }} ET</p>
         <p class="movie-channel">{{ featured.channel }}</p>
         {% if featured.premiere %}
           <span class="premiere-badge">PREMIERE</span>
@@ -171,7 +171,7 @@ Displays 1-2 featured movies with larger poster for "Tonight's Movie" or next up
       <div class="movie-info">
         <h2 class="movie-title">{{ featured.title }}</h2>
         <p class="movie-time">{{ featured.date | date: "%a, %b %d" }}</p>
-        <p class="movie-time">{{ featured.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }} ET</p>
+        <p class="movie-time">{{ featured.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" | replace: "22", "10 PM" }} ET</p>
         <p class="movie-channel">{{ featured.channel }}</p>
         {% if featured.premiere %}
           <span class="premiere-badge">PREMIERE</span>

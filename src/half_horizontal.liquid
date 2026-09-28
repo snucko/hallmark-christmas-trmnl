@@ -98,7 +98,7 @@ Displays 4 upcoming movies in a horizontal row with compact poster thumbnails
 
 <div class="plugin">
   <div class="header">
-    <h1>🎃 Hallmark Movies 🎃</h1>
+    <h1>🎄 Hallmark Movies 🎄</h1>
   </div>
   
   <div class="movies-row">
@@ -114,9 +114,9 @@ Displays 4 upcoming movies in a horizontal row with compact poster thumbnails
         <h2 class="movie-title">{{ movie.title | truncate: 35 }}</h2>
         {% assign date_obj = movie.date | date: "%Y-%m-%d" %}
         {% if date_obj == today %}
-          <p class="movie-time">Tonight {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" }}</p>
+          <p class="movie-time">Tonight {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "21", "9 PM" | replace: "18", "6 PM" | replace: "22", "10 PM" }}</p>
         {% else %}
-          <p class="movie-time">{{ movie.date | date: "%b %d" }} {{ movie.time | replace: ":00", "" | replace: "20", "8PM" | replace: "21", "9PM" | replace: "18", "6PM" }}</p>
+          <p class="movie-time">{{ movie.date | date: "%b %d" }} {{ movie.time | replace: ":00", "" | replace: "20", "8PM" | replace: "21", "9PM" | replace: "18", "6PM" | replace: "22", "10PM" }}</p>
         {% endif %}
         {% if movie.premiere %}
           <span class="premiere-badge">PREMIERE</span>
