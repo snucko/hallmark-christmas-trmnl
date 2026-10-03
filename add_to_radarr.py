@@ -5,10 +5,14 @@ Add Hallmark Christmas movies to Radarr using TMDB IDs.
 
 import requests
 import json
+import os
 
-RADARR_API_KEY = "e0c08c9df42e4ba3af5d81ce9f98da01"  # Will be replaced with actual key
-RADARR_BASE_URL = "http://192.168.0.215:8310"
+RADARR_API_KEY = os.environ.get("RADARR_API_KEY")
+RADARR_BASE_URL = os.environ.get("RADARR_BASE_URL", "http://localhost:7878")
 TAG_LABEL = "hallmark-christmas-2025"
+
+if not RADARR_API_KEY:
+    raise SystemExit("Set RADARR_API_KEY (and optionally RADARR_BASE_URL) in the environment (see .env.example)")
 
 HEADERS = {
     "X-Api-Key": RADARR_API_KEY,

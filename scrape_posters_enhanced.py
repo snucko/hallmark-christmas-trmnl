@@ -12,7 +12,9 @@ from pathlib import Path
 from PIL import Image
 import ssl
 
-TMDB_API_KEY = "4adf21ca8d1da5c81cb5463d8c731367"
+TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
+if not TMDB_API_KEY:
+    raise SystemExit("Set TMDB_API_KEY in the environment (see .env.example)")
 TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 

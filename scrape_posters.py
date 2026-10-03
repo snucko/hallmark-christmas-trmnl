@@ -12,7 +12,7 @@ import urllib.parse
 from pathlib import Path
 from PIL import Image
 
-TMDB_API_KEY = "4adf21ca8d1da5c81cb5463d8c731367"  # Get free key from https://www.themoviedb.org/settings/api
+TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "YOUR_API_KEY_HERE")  # Get free key from https://www.themoviedb.org/settings/api
 TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 

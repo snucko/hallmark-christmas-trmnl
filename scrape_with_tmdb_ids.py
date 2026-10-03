@@ -3,12 +3,15 @@
 Download posters using TMDB movie IDs directly.
 """
 
+import os
 import json
 import urllib.request
 from pathlib import Path
 from PIL import Image
 
-TMDB_API_KEY = "4adf21ca8d1da5c81cb5463d8c731367"
+TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
+if not TMDB_API_KEY:
+    raise SystemExit("Set TMDB_API_KEY in the environment (see .env.example)")
 TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
 # TMDB IDs from Letterboxd/TMDB data

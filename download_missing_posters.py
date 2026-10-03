@@ -9,7 +9,9 @@ import urllib.request
 import urllib.parse
 from pathlib import Path
 
-TMDB_API_KEY = "4adf21ca8d1da5c81cb5463d8c731367"  # Working TMDB key
+TMDB_API_KEY = os.environ.get("TMDB_API_KEY")
+if not TMDB_API_KEY:
+    raise SystemExit("Set TMDB_API_KEY in the environment (see .env.example)")
 TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500"
 
