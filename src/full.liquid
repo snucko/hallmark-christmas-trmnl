@@ -1,146 +1,41 @@
-{% comment %}
-Hallmark Christmas Movies - Full Layout (800×480)
-Displays 6 upcoming movies in a 2x3 grid with posters, titles, dates, and channel info
-{% endcomment %}
-
-{% comment %} Data comes from polling URL in plugin settings {% endcomment %}
-{% assign schedule_data = movies %}
-
-{% assign today = "now" | date: "%Y-%m-%d" %}
-{% assign upcoming_movies = schedule_data | where_exp: "movie", "movie.date >= today" %}
+{% assign today = trmnl.system.timestamp_utc | plus: trmnl.user.utc_offset | date: "%Y-%m-%d" %}
+{% assign upcoming_movies = movies | where_exp: "movie", "movie.date >= today" %}
 
 <style>
-  .plugin {
-    width: 800px;
-    height: 480px;
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-variant-numeric: oldstyle-nums;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 15px;
-    border-bottom: 3px solid #000;
-    padding-bottom: 10px;
-  }
-  
-  .header h1 {
-    font-size: 32px;
-    margin: 0 0 8px 0;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-  }
-
-  .header .season {
-    font-size: 16px;
-    margin: 0;
-    font-weight: 500;
-    opacity: 0.9;
-  }
-  
-  .movies-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 15px;
-  }
-  
-  .movie {
-    display: flex;
-    gap: 10px;
-    border: 2px solid #000;
-    padding: 8px;
-  }
-  
-  .movie-poster {
-    width: 80px;
-    height: 120px;
-    border: 1px solid #000;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-  }
-  
-  .movie-poster img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-  
-  .movie-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .movie-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 6px 0;
-    line-height: 1.3;
-    letter-spacing: -0.2px;
-  }
-
-  .movie-date {
-    font-size: 13px;
-    margin: 3px 0;
-    font-weight: 500;
-  }
-
-  .movie-channel {
-    font-size: 12px;
-    margin: 2px 0;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.8;
-  }
-
-  .movie-stars {
-    font-size: 11px;
-    margin: 3px 0;
-    font-style: italic;
-    opacity: 0.9;
-    line-height: 1.2;
-  }
-  
-  .premiere-badge {
-    display: inline-block;
-    background: #000;
-    color: #fff;
-    padding: 2px 6px;
-    font-size: 9px;
-    font-weight: bold;
-    margin-top: 3px;
-  }
+  .plugin { width: 800px; height: 480px; padding: 20px; box-sizing: border-box; }
+  .header { text-align: center; margin-bottom: 15px; border-bottom: 3px solid #000; padding-bottom: 10px; }
+  .header h1 { font-size: 32px; margin: 0 0 8px 0; font-weight: 700; line-height: 1.1; }
+  .header .season { font-size: 16px; margin: 0; font-weight: 500; }
+  .movies-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px; }
+  .movie { display: flex; gap: 10px; border: 2px solid #000; padding: 8px; }
+  .movie-poster { width: 80px; height: 120px; border: 1px solid #000; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff; }
+  .movie-poster img { max-width: 100%; max-height: 100%; }
+  .movie-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .movie-title { font-size: 16px; font-weight: 600; margin: 0 0 6px 0; line-height: 1.3; }
+  .movie-date { font-size: 13px; margin: 3px 0; font-weight: 500; }
+  .movie-channel { font-size: 12px; margin: 2px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+  .movie-stars { font-size: 11px; margin: 3px 0; font-style: italic; line-height: 1.2; }
+  .premiere-badge { display: inline-block; background: #000; color: #fff; padding: 2px 6px; font-size: 9px; font-weight: bold; margin-top: 3px; }
 </style>
 
 <div class="plugin">
   <div class="header">
-    <h1>🎄 Hallmark Movies 🎄</h1>
-    <p class="season">{{ schedule_data.season }}</p>
+    <h1>Hallmark Movies</h1>
+    <p class="season">{{ season }}</p>
   </div>
-  
+
   <div class="movies-grid">
     {% for movie in upcoming_movies limit: 4 %}
       <div class="movie">
         <div class="movie-poster">
           {% if movie.image %}
-            <img src="https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/{{ movie.image }}" alt="{{ movie.title }}"/>
-          {% else %}
-            <div style="font-size: 40px;">🎬</div>
+            <img class="image-dither" src="https://raw.githubusercontent.com/snucko/hallmark-christmas-trmnl/main/{{ movie.image }}" alt="{{ movie.title }}"/>
           {% endif %}
         </div>
         <div class="movie-info">
           <h2 class="movie-title">{{ movie.title }}</h2>
-          <p class="movie-date">📅 {{ movie.date | date: "%b %d" }} @ {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "22", "10 PM" | replace: "18", "6 PM" }}</p>
-          <p class="movie-channel">📺 {{ movie.channel }}</p>
+          <p class="movie-date">{{ movie.date | date: "%b %d" }} @ {{ movie.time | replace: ":00", "" | replace: "20", "8 PM" | replace: "22", "10 PM" | replace: "18", "6 PM" }}</p>
+          <p class="movie-channel">{{ movie.channel }}</p>
           {% if movie.stars %}
             <p class="movie-stars">{{ movie.stars }}</p>
           {% endif %}
