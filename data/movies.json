@@ -4,17 +4,6 @@
   "end_date": "2026-12-20",
   "movies": [
     {
-      "title": "Mistletoe and Mimosas",
-      "date": "2026-11-15",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Claire Bennett (Mowry-Housley) is a successful business consultant in Manhattan who unexpectedly inherits her beloved Uncle Lou's Christmas-themed bar, The Tipsy Reindeer, in upstate New York. When she returns, Claire discovers the bar comes with high debt \u2013 her Uncle Lou was overly generous to people in town while the booming business of Algorithm, an upscale and trendy new club, added insult to injury. She intends to turn things around before Christmas and sell to someone who will preserve her uncle's legacy and then return to her life in the city. Claire meets Zach (Polaha), Algorithm's part owner and manager, who tells her they want to buy The Tipsy Reindeer so they can expand. Claire bristles at the proposition and they agree to face off in a 12 Days of Christmas-inspired series of festive events to see who can bring in the most business \u2013 if Claire wins, Zach will use his contacts to find the right buyer but if Zach emerges victorious, Claire agrees to consider Algorithm's offer. As they compete over the course of the 12 days their attraction is undeniable. Rivalry leads to romance and the two are faced with figuring out how their shifting priorities might somehow lead them down the same road, together.",
-      "stars": "Tamera Mowry-Housley, Kristoffer Polaha, Jennifer Robertson",
-      "premiere": true,
-      "image": "images/1bit/mistletoe-and-mimosas.png"
-    },
-    {
       "title": "Mistletoe Murders",
       "date": "2026-11-19",
       "time": "20:00",
