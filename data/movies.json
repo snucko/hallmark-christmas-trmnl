@@ -4,17 +4,6 @@
   "end_date": "2026-12-20",
   "movies": [
     {
-      "title": "Our Holiday Playbook",
-      "date": "2026-11-20",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "When Lexi Bell (Cole) returns home for the holidays, she faces a beloved family tradition she'd rather avoid: the fiercely competitive Bell Bowl, an annual Christmas flag football showdown between her father and uncle that has fueled decades of sibling rivalry. But when an injury sidelines her brother-in-law it looks like Lexi's family's losing streak will remain unbroken. To give them a fighting chance, she strikes a deal with Eddie (Davis), a former local football star-turned teacher \u2013 Lexi will use her baking know-how to help Eddie best his brother in their annual bake-off if he'll pose as her boyfriend and meet the \u201celigibility requirement\u201d to play on their team. As they navigate each other's festive family gatherings, traditions and celebrations, what started as a transactional partnership begins to become something more as Lexi and Eddie find themselves feeling less and less like their romantic relationship is just pretend. As the two clans battle it out on the field, regardless of who takes home the trophy Lexi may have already won at love.",
-      "stars": "Taylor Cole, Charles Michael Davis",
-      "premiere": true,
-      "image": "images/1bit/our-holiday-playbook.png"
-    },
-    {
       "title": "Christmas in Blue Dog Valley",
       "date": "2026-11-21",
       "time": "20:00",
