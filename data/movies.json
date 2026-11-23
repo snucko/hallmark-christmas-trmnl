@@ -4,17 +4,6 @@
   "end_date": "2026-12-20",
   "movies": [
     {
-      "title": "Double Booked for the Holidays",
-      "date": "2026-11-22",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "There's only one thing identical twins, quiet and bookish Abigail (Cook) and globe-trotting event planner Charlie (Cook), agree on is that this first Christmas without their mom will be difficult. When they unexpectedly get a last-minute chance to travel to Wales and spend a week running the Story Shoppe, an AirBnb/bookshop in Hay-on-Wye, they jump at the opportunity. Abigail is particularly excited, given the town's role as the backdrop of the bestselling Winterton Chronicles, her all-time favorite Regency holiday romances. Upon arrival, Abigail dives into setting up the bookshop's window display with help from the friendly next-door barista, Tom (Yeoman), who is also a fan of the Winterton Chronicles. Meanwhile, Charlie meets the dashing Lord Rhys (Hagan), the great-nephew of Evelyn Calon, who wrote the book series. Abigail is charmed by a series of thoughtful Christmas ornaments she assumes are from Rhys (but are actually from Tom), while Charlie and Rhys grow closer as they help plan the Winterton Ball at Rhys' castle. Mistaken identities lead to a series of merry mix-ups as Rhys and Tom woo the sisters, unaware they are twins. On the night of the ball, however, the sisters' double secret is discovered. As the truth is unwrapped, the crisscrossed lovers discover that the perfect holiday happy ending isn't always by the book.",
-      "stars": "Rachael Leigh Cook, Owain Yeoman, Stephen Hagan",
-      "premiere": true,
-      "image": "images/1bit/double-booked-for-the-holidays.png"
-    },
-    {
       "title": "Christmas Delivered",
       "date": "2026-11-26",
       "time": "20:00",
