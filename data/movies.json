@@ -4,28 +4,6 @@
   "end_date": "2026-12-20",
   "movies": [
     {
-      "title": "Christmas Delivered",
-      "date": "2026-11-26",
-      "time": "20:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 120,
-      "description": "Determined to unwind from the stresses and loneliness of her everyday life, Kimberly Carr (Reeser) travels to Canada to spend Christmas with her grandmother, JoJo (Linda Darlow), at her beautiful, cozy farmhouse. Kimberly's plans for a restorative holiday are turned upside down when she crosses paths with Ben Chambers (Brown), owner of a local tree farm and new Christmas tree delivery app called TreeBen. Ben's a dreamer who never looks before he leaps while Kimberly is methodical and lives her life based on practicality \u2013 the two couldn't be more different. But when Ben's app is plagued by an onslaught of issues, Kimberly uses her tech expertise to help him out and ensure that no one in town is deprived of a Christmas tree...even though she isn't convinced of the need for the app in such a small town. As they team up to deliver trees in his red truck, Kimberly and Ben discover they may have more in common than they realized. In the process, Kimberly begins to question if she's truly happy with her life or if she's ready for a change and \u2013 just maybe \u2013 ready for romance.",
-      "stars": "Autumn Reeser, Wes Brown",
-      "premiere": true,
-      "image": "images/1bit/christmas-delivered.png"
-    },
-    {
-      "title": "Mistletoe Murders",
-      "date": "2026-11-26",
-      "time": "22:00",
-      "channel": "Hallmark Channel",
-      "duration_minutes": 60,
-      "description": "Catherine Bell and Holly Robinson Peete guest star this season",
-      "stars": "Sarah Drew, Peter Mooney",
-      "premiere": true,
-      "image": "images/1bit/mistletoe-murders.png"
-    },
-    {
       "title": "The Christmas Eve Feast",
       "date": "2026-11-27",
       "time": "18:00",
